@@ -10,8 +10,8 @@ namespace Launcher.src
 {
     class Networking
     {
-        public static string HOST = "https://winterao.com.ar/update/cliente/";
-        private readonly string VERSIONFILE_URI = HOST + "VersionInfo2.json";
+        public static string HOST = "http://autoupdate.ao20.com.ar/";
+        private readonly string VERSIONFILE_URI = HOST + "Version.json";
 
         private readonly List<string> EXCEPCIONES = new List<string>() { 
             "/Init/Config.ini",
@@ -50,11 +50,11 @@ namespace Launcher.src
             for (int i = 0; i < versionRemota.Files.Count; i++)
             {
                 // Si existe el archivo, comparamos el MD5..
-                if (File.Exists(Directory.GetCurrentDirectory() + versionRemota.Files[i].name))
+                if (File.Exists(Directory.GetCurrentDirectory() + '\\' + versionRemota.Files[i].name))
                 {
                     // Si NO coinciden los hashes, ...
                     if (!EXCEPCIONES.Contains(versionRemota.Files[i].name) && 
-                        IO.checkMD5(versionLocal.Files[i].name) != versionRemota.Files[i].checksum)
+                        IO.checkMD5(versionLocal.Files[i].name).ToLower() != versionRemota.Files[i].checksum)
                     {
                         // ... lo agrego a la lista de archivos a descargar.
                         fileQueue.Add(versionRemota.Files[i].name);
@@ -103,7 +103,7 @@ namespace Launcher.src
             {
                 versionRemota = JsonSerializer.Deserialize<VersionInformation>(versionRemotaString);
             }
-            catch (JsonException)
+            catch (JsonException e)
             {
                 MessageBox.Show("Error al de-serializar: El Version.json del servidor tiene un formato inválido.");
             }

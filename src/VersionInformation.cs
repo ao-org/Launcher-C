@@ -4,7 +4,7 @@ namespace Launcher.src
 {
     public class VersionInformation
     {
-        public class Manifest
+        public class TManifest
         {
             public int TotalFiles { get; set; }
             public int TotalFolders { get; set; }
@@ -16,8 +16,8 @@ namespace Launcher.src
             public string checksum { get; set; }
         }
 
-        public Manifest manifest { get; set; }
-        public List<string> Folders { get; set; }
         public List<File> Files { get; set; }
+        public List<string> Folders { get; set; }
+        public TManifest Manifest { get; set; }
     }
 }

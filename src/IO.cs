@@ -12,7 +12,7 @@ namespace Launcher.src
         public int ArchivosDesactualizados = 0;
         public int ArchivoActual = 0;
 
-        public static string VERSIONFILE_PATH = Directory.GetCurrentDirectory() + "\\Init\\VersionInfo2.json";
+        public static string VERSIONFILE_PATH = Directory.GetCurrentDirectory() + "\\Recursos\\Version.json";
 
 #nullable enable
         public static VersionInformation Get_LocalVersion(string? customVersionData)
@@ -64,7 +64,7 @@ namespace Launcher.src
         {
             using (var md5 = MD5.Create())
             {
-                using (var stream = File.OpenRead(Directory.GetCurrentDirectory() + filename))
+                using (var stream = File.OpenRead(Directory.GetCurrentDirectory() + '\\' + filename))
                 {
                     var hash = md5.ComputeHash(stream);
                     return BitConverter.ToString(hash).Replace("-", "");
