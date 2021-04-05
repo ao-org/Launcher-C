@@ -2,11 +2,11 @@
 using System.Runtime.InteropServices;
 using System.Windows;
 
-[assembly: AssemblyTitle("WinterAO Launcher")]
-[assembly: AssemblyDescription("Launcher oficial de WinterAO Resurrection")]
+[assembly: AssemblyTitle("Launcher - AO 20")]
+[assembly: AssemblyDescription("Launcher oficial de AO 20")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("WinterAO Resurrection")]
-[assembly: AssemblyProduct("WinterAO Launcher")]
+[assembly: AssemblyCompany("Launcher - AO 20")]
+[assembly: AssemblyProduct("Launcher - AO 20")]
 [assembly: AssemblyCopyright("GNU GPL")]
 [assembly: AssemblyTrademark("")]
 [assembly: ComVisible(false)]

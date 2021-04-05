@@ -3,14 +3,17 @@
 
 using Launcher.src;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
+using System.Text.Json;
 
 namespace Launcher
 {
@@ -18,7 +21,7 @@ namespace Launcher
     {
 
         //ATRIBUTOS
-        private static string URLWeb = "https://winterao.com.ar";
+        private static string URLWeb = "https://ao20.com.ar";
 
         private readonly IO local = new IO();
         private readonly Networking networking = new Networking();
@@ -34,25 +37,31 @@ namespace Launcher
             InitializeComponent();
 
             // Buscamos actualizaciones...
-            BuscarActualizaciones();
+            int actualizacionesDisponibles = BuscarActualizaciones();
+            getServerStatus();
+            getChangelog();
+
         }
 
-        private void BuscarActualizaciones()
+        private int BuscarActualizaciones()
         {
             local.ArchivosDesactualizados = networking.CheckOutdatedFiles().Count;
 
             // Comprobamos la version actual del cliente
             if (local.ArchivosDesactualizados == 0)
             {
-                pbar.Value = 100.0;
-                lblDow.Content = "Actualizado";
+                lblDow.Content = "¡Cliente al día!";
+                lblDow.HorizontalContentAlignment = HorizontalAlignment.Center;
                 lblDow.Foreground = new SolidColorBrush(Colors.Yellow);
             }
             else // Si el cliente no esta actualizado, lo notificamos
             {
                 lblDow.Content = "Tienes " + local.ArchivosDesactualizados + " archivos desactualizados...";
-                lblDow.Foreground = new SolidColorBrush(Colors.Red);
+                lblDow.HorizontalContentAlignment = HorizontalAlignment.Center;
+                lblDow.Foreground = new SolidColorBrush(Colors.DarkRed);
             }
+
+            return local.ArchivosDesactualizados;
         }
 
         /**
@@ -68,6 +77,7 @@ namespace Launcher
 
                 // Anunciamos el numero de archivo que estamos descargando
                 lblDow.Content = "Descargando " + networking.fileQueue[local.ArchivoActual] + ". Archivo " + local.ArchivoActual + " de " + (networking.fileQueue.Count - 1);
+                lblDow.HorizontalContentAlignment = HorizontalAlignment.Left;
                 lblDow.Foreground = new SolidColorBrush(Colors.White);
 
                 // Comenzamos la descarga
@@ -84,24 +94,55 @@ namespace Launcher
             
             WebClient client = new WebClient();
             client = new WebClient();
-            client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(UpdateProgressChange);
             client.DownloadFileCompleted += new AsyncCompletedEventHandler(UpdateDone);
             await networking.IniciarDescarga(client);
         }
 
-        /**
-         * Actualiza la barra de progreso
-         */
-        public void UpdateProgressChange(object sender, DownloadProgressChangedEventArgs e)
+        private async void getServerStatus()
         {
-            pbar.Value = e.ProgressPercentage;
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.GetAsync("http://api.ao20.com.ar/");
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
 
-            if (pbar.Value != 100.0) return;
+            ServerStatus serverStatus = new ServerStatus();
+
+            serverStatus = JsonSerializer.Deserialize<ServerStatus>(responseBody);    
+            
+            if(serverStatus != null)
+            {
+                if (serverStatus.ok)
+                {
+                    txtStatus.Content = "ONLINE: " + serverStatus.onlineCount;
+                    txtStatus.Foreground = new SolidColorBrush(Colors.ForestGreen);
+                }
+                else
+                {
+                    txtStatus.Content = "OFFLINE";
+                    txtStatus.Foreground = new SolidColorBrush(Colors.DarkRed);
+                }
+            }
+
         }
 
-        /**
-         * Completa la actualizacion
-         */
+
+        private void getChangelog()
+        {
+            string Url = "http://autoupdate.ao20.com.ar/changelog.txt";
+            var webRequest = WebRequest.Create(Url);
+
+            var responseStream = webRequest.GetResponse().GetResponseStream();
+
+            using (var streamReader = new StreamReader(responseStream))
+            {
+                // Return next available character or -1 if there are no characters to be read
+                while (streamReader.Peek() > -1)
+                {
+                    txtChangelog.Text += streamReader.ReadLine() + "\n";
+                }
+            }
+        }
+       
         private void UpdateDone(object sender, AsyncCompletedEventArgs e)
         {
             // Decimos que ya terminó esta descarga
@@ -132,6 +173,8 @@ namespace Launcher
                 local.ArchivoActual++;
 
                 lblDow.Content = "Descargando " + networking.fileQueue[local.ArchivoActual] + ". Archivo " + local.ArchivoActual + " de " + (networking.fileQueue.Count - 1);
+                grdPbarLlena.Width = (416 * local.ArchivoActual) / (networking.fileQueue.Count - 1);
+                grdPbarLlena.Visibility = Visibility.Visible;
             }
         }
 
@@ -175,7 +218,7 @@ namespace Launcher
             }
 
             // Abrimos el cliente.
-            string gameExecutable = Directory.GetCurrentDirectory() + "/WinterAOResurrection.exe";
+            string gameExecutable = Directory.GetCurrentDirectory() + "/Cliente/Argentum.exe";
             if (File.Exists(gameExecutable))
             {
                 ProcessStartInfo startInfo = new ProcessStartInfo();
@@ -208,5 +251,32 @@ namespace Launcher
         {
             WindowState = WindowState.Minimized;
         }
+
+        private void image_discord_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://discord.gg/e3juVbF");
+        }
+
+        private void image_facebook_Click(object sender, RoutedEventArgs e)
+        {
+
+            Process.Start("https://www.facebook.com/ao20oficial/"); 
+        }
+
+        private void image_instagram_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://www.instagram.com/ao20oficial/?hl=es");
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Environment.Exit(0);
+        }
+    }
+
+    public class ServerStatus
+    {
+        public bool ok { get; set; }
+        public int onlineCount { get; set; }
     }
 }
