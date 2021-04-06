@@ -80,37 +80,34 @@ namespace Launcher.src
 
         public VersionInformation Get_RemoteVersion()
         {
-            // Envio un GET al servidor con el JSON de el archivo de versionado.
             WebClient webClient = new WebClient();
+            VersionInformation versionRemota = null;
             try
             {
+                // Envio un GET al servidor con el JSON de el archivo de versionado.
                 versionRemotaString = webClient.DownloadString(VERSIONFILE_URI);
+                
+                // Me fijo que la response NO ESTÉ vacía.
+                if (versionRemotaString == null)
+                {
+                    MessageBox.Show("Hemos recibido una respuesta vacía del servidor. Contacta con un administrador :'(");
+                    Environment.Exit(0);
+                }
+
+                // Deserializamos el Version.json remoto
+                versionRemota = JsonSerializer.Deserialize<VersionInformation>(versionRemotaString);
             }
             catch (WebException error)
             {
                 MessageBox.Show(error.Message);
             }
+            catch (JsonException)
+            {
+                MessageBox.Show("Has recibido una respuesta invalida por parte del servidor.");
+            }
             finally
             {
                 webClient.Dispose();
-            }
-
-            // Me fijo que la response NO ESTÉ vacía.
-            if (versionRemotaString == null)
-            {
-                MessageBox.Show("Hemos recibido una respuesta vacía del servidor. Contacta con un administrador :'(");
-                Environment.Exit(0);
-            }
-
-            // Deserializamos el Version.json remoto
-            VersionInformation versionRemota = null;
-            try
-            {
-                versionRemota = JsonSerializer.Deserialize<VersionInformation>(versionRemotaString);
-            }
-            catch (JsonException)
-            {
-                MessageBox.Show("Error al de-serializar: El Version.json del servidor tiene un formato inválido.");
             }
 
             return versionRemota;
@@ -128,7 +125,6 @@ namespace Launcher.src
                 }
             }
         }
-
 
         /**
          * ADVERTENCIA: Esto es parte de el método DescargarActualizaciones() en MainWindow.xaml.cs
