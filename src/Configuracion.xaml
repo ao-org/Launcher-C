@@ -70,6 +70,80 @@
             <CheckBox x:Name="chkSincronizacionVertical" Content="CheckBox" Height="14"  Style="{StaticResource chkCustom}" Margin="10,174,216,136">
             </CheckBox>
             <TextBlock Foreground="White"  Margin="42,179,71,130" FontSize="14" >Sincronización Vertical</TextBlock>
+            <Button   Width="31"  Margin="236,-15,0,311" Height="28" Click="Button_Click">
+                <Button.Background>
+                    <ImageBrush Stretch="Uniform" ImageSource="../assets/img/boton-cerrar-default.png"/>
+                </Button.Background>
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+
+                        <Grid Background="{TemplateBinding Background}">
+
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="MouseOver"/>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
+                            <StackPanel>
+                                <Image x:Name="jugar" Source="01bf68f6-28d1-417f-a5a6-4b31f0241f2a"  Stretch="Uniform" Visibility="Collapsed"/>
+                            </StackPanel>
+
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="jugar" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
         </Grid>
+        <Button 
+                x:Name="btnConfiguracion" 
+                Height="28"    
+                Width="132"
+                Margin="67,288,68,8" Click="btnAceptar_click">
+            <Button.Background>
+                <ImageBrush Stretch="Uniform" ImageSource="../assets/img/boton-aceptar-es-default.png"/>
+            </Button.Background>
+            <Button.Template>
+
+                <ControlTemplate TargetType="{x:Type Button}">
+
+                    <Grid Background="{TemplateBinding Background}">
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="MouseOver"/>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <StackPanel>
+                            <Image x:Name="jugar" Source="../assets/img/boton-aceptar-es-over.png"  Stretch="Uniform" Visibility="Collapsed"/>
+                            <Image x:Name="jugar2" Source="../assets/img/boton-aceptar-es-off.png"  Stretch="Uniform" Visibility="Collapsed" />
+                        </StackPanel>
+
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="jugar" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="jugar2" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="jugar" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="jugar2" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+
+        </Button>
     </Grid>
 </Window>
