@@ -11,7 +11,7 @@ namespace Launcher.src
     class Networking
     {
         public static string HOST = "http://autoupdate.ao20.com.ar/";
-        private readonly string VERSIONFILE_URI = HOST + "/Version.json";
+        private readonly string VERSIONFILE_URI = HOST + "\\Version.json";
 
         private readonly List<string> EXCEPCIONES = new List<string>() {
             "/Recursos/Configuracion.ini",
@@ -56,7 +56,7 @@ namespace Launcher.src
                 archivoRemoto = versionRemota.Files[i];
 
                 // Si existe el archivo, comparamos el MD5..
-                if (File.Exists(Directory.GetCurrentDirectory() + "\\" + archivoRemoto.name))
+                if (File.Exists(App.ARGENTUM_FILES + archivoRemoto.name))
                 {
                     // Si NO coinciden los hashes, ...
                     if (!EXCEPCIONES.Contains(archivoRemoto.name) && 
@@ -121,7 +121,7 @@ namespace Launcher.src
         {
             foreach(string folder in versionRemota.Folders)
             {
-                string currentFolder = Directory.GetCurrentDirectory() + "\\" + folder;
+                string currentFolder = App.ARGENTUM_FILES + folder;
 
                 if (!Directory.Exists(currentFolder))
                 {
@@ -144,7 +144,7 @@ namespace Launcher.src
             {
                 downloadQueue = new TaskCompletionSource<bool>();
 
-                webClient.DownloadFileAsync(new Uri(HOST + "/updater2/" + file), Directory.GetCurrentDirectory() + "\\" + file);
+                webClient.DownloadFileAsync(new Uri(HOST + "/updater2/" + file), App.ARGENTUM_FILES + file);
 
                 await downloadQueue.Task;
             }

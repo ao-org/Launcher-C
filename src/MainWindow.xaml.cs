@@ -13,7 +13,6 @@ using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Text.Json;
-using System.Drawing.Text;
 
 namespace Launcher
 {
@@ -31,9 +30,6 @@ namespace Launcher
         {
             // Inicializamos los componentes de este formulario.
             InitializeComponent();
-            //PrivateFontCollection privateFontCollection = new PrivateFontCollection();
-            //privateFontCollection.AddFontFile("../assets/fonts/Cardo.ttf");
-            //txtStatus.FontFamily = FontFamily
 
             BuscarActualizaciones();
             getServerStatus();
@@ -153,7 +149,6 @@ namespace Launcher
                 local.Actualizando = false;
                 local.ArchivoActual = 0;
                 local.ArchivosDesactualizados = 0;
-                //networking.fileQueue.Clear();
 
                 return;
             }
@@ -243,7 +238,7 @@ namespace Launcher
 
         private static void AbrirJuego()
         {
-            string gameExecutable = Directory.GetCurrentDirectory() + "/Cliente/Argentum.exe";
+            string gameExecutable = App.ARGENTUM_FILES + "\\Cliente\\Argentum.exe";
             if (File.Exists(gameExecutable))
             {
                 ProcessStartInfo startInfo = new ProcessStartInfo();
