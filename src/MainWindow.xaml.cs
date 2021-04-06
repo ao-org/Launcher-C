@@ -34,6 +34,18 @@ namespace Launcher
             BuscarActualizaciones();
             getServerStatus();
             getChangelog();
+            checkConfiguracion();
+        }
+
+        private void checkConfiguracion()
+        {
+            if(!File.Exists(App.ARGENTUM_FILES + "Recursos\\OUTPUT\\Configuracion.ini")){
+                btnConfiguracion.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                btnConfiguracion.Visibility = Visibility.Visible;
+            }
         }
 
         private int BuscarActualizaciones()
@@ -143,7 +155,9 @@ namespace Launcher
                 
                 // Actualizo el label.
                 lblDow.Content = "¡Actualización Completada!";
+                lblDow.HorizontalContentAlignment = HorizontalAlignment.Center;
                 lblDow.Foreground = new SolidColorBrush(Colors.Yellow);
+                checkConfiguracion();
 
                 // Le digo al programa que ya no estamos actualizando mas nada.
                 local.Actualizando = false;
@@ -159,6 +173,7 @@ namespace Launcher
                 local.ArchivoActual++;
 
                 lblDow.Content = "Descargando " + networking.fileQueue[local.ArchivoActual] + ". Archivo " + local.ArchivoActual + " de " + (networking.fileQueue.Count - 1);
+                lblDow.HorizontalContentAlignment = HorizontalAlignment.Left;
                 grdPbarLlena.Width = (416 * local.ArchivoActual) / (networking.fileQueue.Count - 1);
                 grdPbarLlena.Visibility = Visibility.Visible;
             }
@@ -244,7 +259,7 @@ namespace Launcher
                 ProcessStartInfo startInfo = new ProcessStartInfo();
                 startInfo.FileName = gameExecutable;
                 startInfo.UseShellExecute = false;
-
+                startInfo.Verb = "runas";
                 try
                 {
                     // Start the process with the info we specified.

@@ -15,10 +15,5 @@
     <Resource Include="assets\img\*.png" />
     <Resource Include="assets\fonts\*.ttf" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="assets\img\check-amarillo.png" />
-    <None Remove="assets\img\checkbox.png" />
-  </ItemGroup>
-
+  
 </Project>
