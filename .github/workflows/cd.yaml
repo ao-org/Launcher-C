@@ -32,7 +32,7 @@ jobs:
           dotnet publish Launcher.csproj --framework netcoreapp3.1 --runtime "win-x64" -c Release -o "$release_name"
           
           # Pack to .zip for Windows
-          7z a -tzip "${release_name}.zip" "./${release_name}/*"
+          7z a -mx9 -mmt4 -tzip "${release_name}.zip" "./${release_name}"
 
           # Delete output directory
           rm -r "$release_name"
