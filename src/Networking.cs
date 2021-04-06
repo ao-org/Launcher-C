@@ -11,11 +11,12 @@ namespace Launcher.src
     class Networking
     {
         public static string HOST = "http://autoupdate.ao20.com.ar/";
-        private readonly string VERSIONFILE_URI = HOST + "Version.json";
+        private readonly string VERSIONFILE_URI = HOST + "/Version.json";
 
-        private readonly List<string> EXCEPCIONES = new List<string>() { 
-            "/Init/Config.ini",
-            "/Init/BindKeys.bin"
+        private readonly List<string> EXCEPCIONES = new List<string>() {
+            "/Recursos/Configuracion.ini",
+            "/Recursos/Teclas.ini",
+            "/Recursos/Version.json",
         };
 
         // Acá está la info. del VersionInfo.json
@@ -46,24 +47,29 @@ namespace Launcher.src
                 versionLocal = IO.Get_LocalVersion(null);
             }
 
+            VersionInformation.File archivoLocal, archivoRemoto;
+
             // Itero la lista de archivos del servidor y lo comparo con lo que tengo en local.
             for (int i = 0; i < versionRemota.Files.Count; i++)
             {
+                archivoLocal = versionLocal.Files[i];
+                archivoRemoto = versionRemota.Files[i];
+
                 // Si existe el archivo, comparamos el MD5..
-                if (File.Exists(Directory.GetCurrentDirectory() + '\\' + versionRemota.Files[i].name))
+                if (File.Exists(Directory.GetCurrentDirectory() + "\\" + archivoRemoto.name))
                 {
                     // Si NO coinciden los hashes, ...
-                    if (!EXCEPCIONES.Contains(versionRemota.Files[i].name) && 
-                        IO.checkMD5(versionLocal.Files[i].name).ToLower() != versionRemota.Files[i].checksum)
+                    if (!EXCEPCIONES.Contains(archivoRemoto.name) && 
+                        IO.checkMD5(archivoLocal.name) != archivoRemoto.checksum)
                     {
                         // ... lo agrego a la lista de archivos a descargar.
-                        fileQueue.Add(versionRemota.Files[i].name);
+                        fileQueue.Add(archivoRemoto.name);
                     }
                 }
                 else // Si existe el archivo, ...
                 {
                     // ... lo agrego a la lista de archivos a descargar.
-                    fileQueue.Add(versionRemota.Files[i].name);
+                    fileQueue.Add(archivoRemoto.name);
                 }
             }
 
@@ -103,7 +109,7 @@ namespace Launcher.src
             {
                 versionRemota = JsonSerializer.Deserialize<VersionInformation>(versionRemotaString);
             }
-            catch (JsonException e)
+            catch (JsonException)
             {
                 MessageBox.Show("Error al de-serializar: El Version.json del servidor tiene un formato inválido.");
             }
@@ -115,7 +121,7 @@ namespace Launcher.src
         {
             foreach(string folder in versionRemota.Folders)
             {
-                string currentFolder = Directory.GetCurrentDirectory() + folder;
+                string currentFolder = Directory.GetCurrentDirectory() + "\\" + folder;
 
                 if (!Directory.Exists(currentFolder))
                 {
@@ -138,7 +144,7 @@ namespace Launcher.src
             {
                 downloadQueue = new TaskCompletionSource<bool>();
 
-                webClient.DownloadFileAsync(new Uri(HOST + file), Directory.GetCurrentDirectory() + file);
+                webClient.DownloadFileAsync(new Uri(HOST + "/updater2/" + file), Directory.GetCurrentDirectory() + "\\" + file);
 
                 await downloadQueue.Task;
             }

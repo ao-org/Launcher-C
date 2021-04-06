@@ -64,10 +64,10 @@ namespace Launcher.src
         {
             using (var md5 = MD5.Create())
             {
-                using (var stream = File.OpenRead(Directory.GetCurrentDirectory() + '\\' + filename))
+                using (var stream = File.OpenRead(Directory.GetCurrentDirectory() + "\\" + filename))
                 {
                     var hash = md5.ComputeHash(stream);
-                    return BitConverter.ToString(hash).Replace("-", "");
+                    return BitConverter.ToString(hash).Replace("-", "").ToLower();
                 }
             }
         }
