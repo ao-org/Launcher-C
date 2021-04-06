@@ -1,0 +1,49 @@
+# Fuente: https://patriksvensson.se/2020/03/creating-release-artifacts-with-github-actions/
+
+name: Publish
+
+on:
+  release:
+    types: [published]
+
+jobs:
+
+  release:
+    name: Release
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.x
+
+      - name: Build
+        id: build
+        shell: bash
+        run: |
+          tag=$(git describe --tags --abbrev=0)
+          release_name="Launcher-$tag-win64"
+          
+          # Build everything
+          dotnet publish Launcher.csproj --framework netcoreapp3.1 --runtime "win-x64" -c Release -o "$release_name"
+          
+          # Pack to .zip for Windows
+          7z a -tzip "${release_name}.zip" "./${release_name}/*"
+
+          # Delete output directory
+          rm -r "$release_name"
+          
+          # Store the release name in an environment variable so that the next job knows what to upload to the release.
+          echo "RELEASE_NAME=$release_name" >> $GITHUB_ENV
+
+      - name: Publish
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ${{ env.RELEASE_NAME }}.zip
+            
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
