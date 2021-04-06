@@ -14,9 +14,9 @@ namespace Launcher.src
         private readonly string VERSIONFILE_URI = HOST + "\\Version.json";
 
         private readonly List<string> EXCEPCIONES = new List<string>() {
-            "/Recursos/Configuracion.ini",
-            "/Recursos/Teclas.ini",
-            "/Recursos/Version.json",
+            "\\Recursos\\Configuracion.ini",
+            "\\Recursos\\Teclas.ini",
+            "\\Recursos\\Version.json",
         };
 
         // Acá está la info. del VersionInfo.json
@@ -59,8 +59,7 @@ namespace Launcher.src
                 if (File.Exists(App.ARGENTUM_FILES + archivoRemoto.name))
                 {
                     // Si NO coinciden los hashes, ...
-                    if (!EXCEPCIONES.Contains(archivoRemoto.name) && 
-                        IO.checkMD5(archivoLocal.name) != archivoRemoto.checksum)
+                    if (!EXCEPCIONES.Contains(archivoRemoto.name) && IO.checkMD5(archivoLocal.name) != archivoRemoto.checksum)
                     {
                         // ... lo agrego a la lista de archivos a descargar.
                         fileQueue.Add(archivoRemoto.name);
