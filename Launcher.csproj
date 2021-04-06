@@ -8,9 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
     <PackageReference Include="System.Text.Json" Version="5.0.1" />
- 
+  
     <Resource Include="assets\img\*.png" />
+    <Resource Include="assets\fonts\*.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="assets\img\check-amarillo.png" />
+    <None Remove="assets\img\checkbox.png" />
   </ItemGroup>
 
 </Project>

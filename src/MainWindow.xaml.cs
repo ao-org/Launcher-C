@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Text.Json;
+using System.Drawing.Text;
 
 namespace Launcher
 {
@@ -30,7 +31,9 @@ namespace Launcher
         {
             // Inicializamos los componentes de este formulario.
             InitializeComponent();
-
+            //PrivateFontCollection privateFontCollection = new PrivateFontCollection();
+            //privateFontCollection.AddFontFile("../assets/fonts/Cardo.ttf");
+            //txtStatus.FontFamily = FontFamily
 
             BuscarActualizaciones();
             getServerStatus();
@@ -52,7 +55,7 @@ namespace Launcher
             {
                 lblDow.Content = "Tienes " + local.ArchivosDesactualizados + " archivos desactualizados...";
                 lblDow.HorizontalContentAlignment = HorizontalAlignment.Center;
-                lblDow.Foreground = new SolidColorBrush(Colors.DarkRed);
+                lblDow.Foreground = new SolidColorBrush(Colors.Red);
             }
 
             return local.ArchivosDesactualizados;
@@ -264,6 +267,12 @@ namespace Launcher
             {
                 MessageBox.Show("No se pudo abrir el ejecutable del juego, al parecer no existe!");
             }
+        }
+
+        private void btnConfiguracion_Click(object sender, RoutedEventArgs e)
+        {
+            Configuracion configuracion = new Configuracion();
+            configuracion.Show();
         }
     }
 

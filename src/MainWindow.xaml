@@ -4,28 +4,42 @@
         WindowStyle="none" 
         AllowsTransparency="true" 
         Background="Transparent" 
+        WindowStartupLocation="CenterScreen"
         Height="479" 
         Width="493">
 
+    <Window.Resources>
+        <Style x:Key="Cardo">
+            <Setter Property="TextElement.FontFamily" Value="../assets/fonts/#Cardo"/>
+        </Style>
+        <Style x:Key="AlegreyaAO">
+            <Setter Property="TextElement.FontFamily" Value="../assets/fonts/#Alegreya_Sans_AO"/>
+        </Style>
+    </Window.Resources>
+
     <Grid x:Name="gPrincipal">
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="424*"/>
+            <ColumnDefinition Width="69*"/>
+        </Grid.ColumnDefinitions>
+
         <Grid.Background>
             <ImageBrush ImageSource="../assets/img/ventanalauncher.png"/>
         </Grid.Background>
-        
-        <Grid>
-            <Label x:Name="txtStatus" Content="" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="334,164,37,0" Width="122" Foreground="#FF3EE83E" FontSize="20" FontWeight="ExtraBlack" HorizontalContentAlignment="Center" FontFamily="Cardo"/>
+
+        <Grid Grid.ColumnSpan="2">
+            <Label x:Name="txtStatus" Content="" Style="{StaticResource Cardo}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="334,167,0,0" Width="122" Foreground="#FF3EE83E" FontSize="18" FontWeight="ExtraBlack" HorizontalContentAlignment="Center" />
 
             <Button Click="btnJugar_Click" 
 						x:Name="btnJugar" 
 						Height="39"    
                         Width="161"
                         Margin="166,355,166,85">
-                
+
                 <Button.Background>
                     <ImageBrush Stretch="Uniform" ImageSource="../assets/img/boton-comenzar-es-default.png"/>
                 </Button.Background>
-                
+
                 <Button.Template>
 
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -123,7 +137,7 @@
                 x:Name="btnConfiguracion" 
                 Height="28"    
                 Width="132"
-                Margin="322,229,10,211">
+                Margin="322,229,10,211" Click="btnConfiguracion_Click">
                 <Button.Background>
                     <ImageBrush Stretch="Uniform" ImageSource="../assets/img/boton-configuracion-es-default.png"/>
                 </Button.Background>
@@ -195,14 +209,14 @@
             </Button>
 
         </Grid>
-        <TextBox x:Name="txtChangelog" HorizontalAlignment="Left" Height="174" TextWrapping="Wrap" Width="275" Margin="39,156,0,149" Background="{x:Null}" Foreground="White" BorderThickness="0" VerticalScrollBarVisibility="Auto"/>
-       
-        
-        <Image x:Name="pbVacia" HorizontalAlignment="Left" Height="39" Width="416" Margin="39,428,0,0" Source="../assets/img/progress-bar-vacia.png" VerticalAlignment="Top" />
+        <TextBox x:Name="txtChangelog" HorizontalAlignment="Left" Height="174" TextWrapping="Wrap" Width="275" Margin="39,156,0,133" Background="{x:Null}" Foreground="White" BorderThickness="0" VerticalScrollBarVisibility="Auto"/>
+
+
+        <Image x:Name="pbVacia" HorizontalAlignment="Left" Height="39" Width="416" Margin="39,428,0,0" Source="../assets/img/progress-bar-vacia.png" VerticalAlignment="Top" Grid.ColumnSpan="2" />
         <Grid x:Name="grdPbarLlena" Width="0" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="39,428,0,0"  Height="39">
             <Image x:Name="pbLlena"  Height="39" VerticalAlignment="Top"  Width="416"  Source="../assets/img/progress-bar-llena.png" Grid.ColumnSpan="2" />
         </Grid>
-        <Grid Height="20" Width="150" Margin="349,403,-6,56">
+        <Grid Height="20" Width="150" Margin="349,397,-6,46" Grid.ColumnSpan="2">
             <Button x:Name="image_discord" Height="20" Width="20" Margin="84,0,46,0" Click="image_discord_Click" >
                 <Button.Background>
                     <ImageBrush Stretch="Uniform" ImageSource="../assets/img/ico-discord-default.png"/>
@@ -332,13 +346,12 @@
         <Label x:Name="lblDow" 
 						Content="" 
 						VerticalAlignment="Top"
+                        Style="{StaticResource AlegreyaAO}"
                         HorizontalContentAlignment="Center"
-						Margin="44,430,38,0" 
+						Margin="44,431,38,0" 
 						Height="23"
 						Padding="0,2,0,0" 
-						FontFamily="Global Sans Serif" 
-						Foreground="#C3C3C3" 
-						FontSize="13" Width="411"/>
+						Foreground="#C3C3C3" Width="411" Grid.ColumnSpan="2" FontWeight="Bold"/>
 
     </Grid>
 </Window>
