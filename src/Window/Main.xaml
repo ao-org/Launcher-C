@@ -1,4 +1,4 @@
-<Window x:Class="Launcher.MainWindow" 
+<Window x:Class="Launcher.Main" 
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
         WindowStyle="none" 
@@ -10,10 +10,10 @@
 
     <Window.Resources>
         <Style x:Key="Cardo">
-            <Setter Property="TextElement.FontFamily" Value="../assets/fonts/#Cardo"/>
+            <Setter Property="TextElement.FontFamily" Value="../../assets/fonts/#Cardo"/>
         </Style>
         <Style x:Key="AlegreyaAO">
-            <Setter Property="TextElement.FontFamily" Value="../assets/fonts/#Alegreya_Sans_AO"/>
+            <Setter Property="TextElement.FontFamily" Value="../../assets/fonts/#Alegreya_Sans_AO"/>
         </Style>
     </Window.Resources>
 
@@ -24,7 +24,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid.Background>
-            <ImageBrush ImageSource="../assets/img/ventanalauncher.png"/>
+            <ImageBrush ImageSource="../../assets/img/ventanalauncher.png"/>
         </Grid.Background>
 
         <Grid Grid.ColumnSpan="2">
@@ -37,7 +37,7 @@
                         Margin="166,355,166,85">
 
                 <Button.Background>
-                    <ImageBrush Stretch="Uniform" ImageSource="../assets/img/boton-comenzar-es-default.png"/>
+                    <ImageBrush Stretch="Uniform" ImageSource="../../assets/img/boton-comenzar-es-default.png"/>
                 </Button.Background>
 
                 <Button.Template>
@@ -54,8 +54,8 @@
                             </VisualStateManager.VisualStateGroups>
 
                             <StackPanel>
-                                <Image x:Name="jugar" Source="../assets/img/boton-comenzar-es-over.png"  Stretch="Uniform" Visibility="Collapsed" Height="39"/>
-                                <Image x:Name="jugar2" Source="../assets/img/boton-comenzar-es-off.png"  Stretch="Uniform" Visibility="Collapsed" Height="39"/>
+                                <Image x:Name="jugar" Source="../../assets/img/boton-comenzar-es-over.png"  Stretch="Uniform" Visibility="Collapsed" Height="39"/>
+                                <Image x:Name="jugar2" Source="../../assets/img/boton-comenzar-es-off.png"  Stretch="Uniform" Visibility="Collapsed" Height="39"/>
                             </StackPanel>
 
                         </Grid>
@@ -139,7 +139,7 @@
                 Width="132"
                 Margin="322,229,10,211" Click="btnConfiguracion_Click">
                 <Button.Background>
-                    <ImageBrush Stretch="Uniform" ImageSource="../assets/img/boton-configuracion-es-default.png"/>
+                    <ImageBrush Stretch="Uniform" ImageSource="../../assets/img/boton-configuracion-es-default.png"/>
                 </Button.Background>
                 <Button.Template>
 
@@ -155,8 +155,8 @@
                             </VisualStateManager.VisualStateGroups>
 
                             <StackPanel>
-                                <Image x:Name="jugar" Source="../assets/img/boton-configuracion-es-over.png"  Stretch="Uniform" Visibility="Collapsed"/>
-                                <Image x:Name="jugar2" Source="../assets/img/boton-configuracion-es-off.png"  Stretch="Uniform" Visibility="Collapsed" />
+                                <Image x:Name="jugar" Source="../../assets/img/boton-configuracion-es-over.png"  Stretch="Uniform" Visibility="Collapsed"/>
+                                <Image x:Name="jugar2" Source="../../assets/img/boton-configuracion-es-off.png"  Stretch="Uniform" Visibility="Collapsed" />
                             </StackPanel>
 
                         </Grid>
@@ -179,7 +179,7 @@
             </Button>
             <Button   Width="31"  Margin="462,0,0,451.2" Height="28" Click="Button_Click">
                 <Button.Background>
-                    <ImageBrush Stretch="Uniform" ImageSource="../assets/img/boton-cerrar-default.png"/>
+                    <ImageBrush Stretch="Uniform" ImageSource="../../assets/img/boton-cerrar-default.png"/>
                 </Button.Background>
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -194,7 +194,7 @@
                             </VisualStateManager.VisualStateGroups>
 
                             <StackPanel>
-                                <Image x:Name="jugar" Source="../assets/img/boton-cerrar-over.png"  Stretch="Uniform" Visibility="Collapsed"/>
+                                <Image x:Name="jugar" Source="../../assets/img/boton-cerrar-over.png"  Stretch="Uniform" Visibility="Collapsed"/>
                             </StackPanel>
 
                         </Grid>
@@ -212,14 +212,14 @@
         <TextBox x:Name="txtChangelog" HorizontalAlignment="Left" Height="174" TextWrapping="Wrap" Width="275" Margin="39,156,0,133" Background="{x:Null}" Foreground="White" BorderThickness="0" VerticalScrollBarVisibility="Auto"/>
 
 
-        <Image x:Name="pbVacia" HorizontalAlignment="Left" Height="39" Width="416" Margin="39,428,0,0" Source="../assets/img/progress-bar-vacia.png" VerticalAlignment="Top" Grid.ColumnSpan="2" />
+        <Image x:Name="pbVacia" HorizontalAlignment="Left" Height="39" Width="416" Margin="39,428,0,0" Source="../../assets/img/progress-bar-vacia.png" VerticalAlignment="Top" Grid.ColumnSpan="2" />
         <Grid x:Name="grdPbarLlena" Width="0" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="39,428,0,0"  Height="39">
-            <Image x:Name="pbLlena"  Height="39" VerticalAlignment="Top"  Width="416"  Source="../assets/img/progress-bar-llena.png" Grid.ColumnSpan="2" />
+            <Image x:Name="pbLlena"  Height="39" VerticalAlignment="Top"  Width="416"  Source="../../assets/img/progress-bar-llena.png" Grid.ColumnSpan="2" />
         </Grid>
         <Grid Height="20" Width="150" Margin="349,397,-6,46" Grid.ColumnSpan="2">
             <Button x:Name="image_discord" Height="20" Width="20" Margin="84,0,46,0" Click="image_discord_Click" >
                 <Button.Background>
-                    <ImageBrush Stretch="Uniform" ImageSource="../assets/img/ico-discord-default.png"/>
+                    <ImageBrush Stretch="Uniform" ImageSource="../../assets/img/ico-discord-default.png"/>
                 </Button.Background>
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -234,7 +234,7 @@
                             </VisualStateManager.VisualStateGroups>
 
                             <StackPanel>
-                                <Image x:Name="jugar" Source="../assets/img/ico-discord-over.png"  Stretch="Uniform" Visibility="Collapsed"/>
+                                <Image x:Name="jugar" Source="../../assets/img/ico-discord-over.png"  Stretch="Uniform" Visibility="Collapsed"/>
                             </StackPanel>
 
                         </Grid>
@@ -251,7 +251,7 @@
 
             <Button x:Name="image_instagram" Height="20" Width="20" Margin="10,0,120,0" Click="image_instagram_Click">
                 <Button.Background>
-                    <ImageBrush Stretch="Uniform" ImageSource="../assets/img/ico-instagram-default.png"/>
+                    <ImageBrush Stretch="Uniform" ImageSource="../../assets/img/ico-instagram-default.png"/>
                 </Button.Background>
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -266,7 +266,7 @@
                             </VisualStateManager.VisualStateGroups>
 
                             <StackPanel>
-                                <Image x:Name="jugar" Source="../assets/img/ico-instagram-over.png"  Stretch="Uniform" Visibility="Collapsed"/>
+                                <Image x:Name="jugar" Source="../../assets/img/ico-instagram-over.png"  Stretch="Uniform" Visibility="Collapsed"/>
                             </StackPanel>
 
                         </Grid>
@@ -282,7 +282,7 @@
             </Button>
             <Button x:Name="image_facebook" Height="20" Width="20"  Margin="59,0,71,0" Click="image_facebook_Click" >
                 <Button.Background>
-                    <ImageBrush Stretch="Uniform" ImageSource="../assets/img/ico-facebook-default.png"/>
+                    <ImageBrush Stretch="Uniform" ImageSource="../../assets/img/ico-facebook-default.png"/>
                 </Button.Background>
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -297,7 +297,7 @@
                             </VisualStateManager.VisualStateGroups>
 
                             <StackPanel>
-                                <Image x:Name="jugar" Source="../assets/img/ico-facebook-over.png"  Stretch="Uniform" Visibility="Collapsed"/>
+                                <Image x:Name="jugar" Source="../../assets/img/ico-facebook-over.png"  Stretch="Uniform" Visibility="Collapsed"/>
                             </StackPanel>
 
                         </Grid>
@@ -313,7 +313,7 @@
             </Button>
             <Button x:Name="image_twitter" Height="20" Width="20"  Margin="34,0,96,0" >
                 <Button.Background>
-                    <ImageBrush Stretch="Uniform" ImageSource="../assets/img/ico-twitter-default.png"/>
+                    <ImageBrush Stretch="Uniform" ImageSource="../../assets/img/ico-twitter-default.png"/>
                 </Button.Background>
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -328,7 +328,7 @@
                             </VisualStateManager.VisualStateGroups>
 
                             <StackPanel>
-                                <Image x:Name="jugar" Source="../assets/img/ico-twitter-over.png"  Stretch="Uniform" Visibility="Collapsed"/>
+                                <Image x:Name="jugar" Source="../../assets/img/ico-twitter-over.png"  Stretch="Uniform" Visibility="Collapsed"/>
                             </StackPanel>
 
                         </Grid>

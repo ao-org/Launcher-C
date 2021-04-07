@@ -5,6 +5,12 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Argentum.ico</ApplicationIcon>
+    <StartupObject>Launcher.App</StartupObject>
+    <AssemblyName>Launcher - Argentum20</AssemblyName>
+    <PackageProjectUrl>https://ao20.com.ar</PackageProjectUrl>
+    <RepositoryType>Private</RepositoryType>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
 
   <ItemGroup>

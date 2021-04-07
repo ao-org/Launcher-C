@@ -16,7 +16,7 @@ using System.Text.Json;
 
 namespace Launcher
 {
-    public partial class MainWindow : Window, IComponentConnector
+    public partial class Main : Window, IComponentConnector
     {
         private readonly IO local = new IO();
         private readonly Networking networking = new Networking();
@@ -26,7 +26,7 @@ namespace Launcher
         /**
          * Constructor
          */
-        public MainWindow()
+        public Main()
         {
             // Inicializamos los componentes de este formulario.
             InitializeComponent();
