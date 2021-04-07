@@ -10,7 +10,7 @@
     <AssemblyName>Launcher - Argentum20</AssemblyName>
     <PackageProjectUrl>https://ao20.com.ar</PackageProjectUrl>
     <RepositoryType>Private</RepositoryType>
-    <SignAssembly>false</SignAssembly>
+    <Authors>Abusiv0, Jopi, HarThaoS, WyroX</Authors>
   </PropertyGroup>
 
   <ItemGroup>
