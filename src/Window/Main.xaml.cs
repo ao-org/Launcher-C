@@ -259,7 +259,6 @@ namespace Launcher
                 ProcessStartInfo startInfo = new ProcessStartInfo();
                 startInfo.FileName = gameExecutable;
                 startInfo.UseShellExecute = false;
-                startInfo.Verb = "runas";
                 try
                 {
                     // Start the process with the info we specified.

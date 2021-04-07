@@ -11,6 +11,7 @@
     <PackageProjectUrl>https://ao20.com.ar</PackageProjectUrl>
     <RepositoryType>Private</RepositoryType>
     <Authors>Abusiv0, Jopi, HarThaoS, WyroX</Authors>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <ItemGroup>
