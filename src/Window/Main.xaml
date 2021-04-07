@@ -205,7 +205,7 @@
             </Button>
 
         </Grid>
-        <TextBox x:Name="txtChangelog" HorizontalAlignment="Left" Height="174" TextWrapping="Wrap" Width="275" Margin="39,156,0,133" Background="{x:Null}" Foreground="White" BorderThickness="0" VerticalScrollBarVisibility="Auto"/>
+        <TextBox x:Name="txtChangelog" HorizontalAlignment="Left" TextWrapping="Wrap" Width="275" Margin="39,155,0,141" Background="{x:Null}" Foreground="White" BorderThickness="0" VerticalScrollBarVisibility="Auto"/>
 
 
         <Image x:Name="pbVacia" HorizontalAlignment="Left" Height="39" Width="416" Margin="39,428,0,0" Source="../../assets/img/progress-bar-vacia.png" VerticalAlignment="Top" Grid.ColumnSpan="2" />
