@@ -21,8 +21,6 @@ namespace Launcher
         private readonly IO local = new IO();
         private readonly Networking networking = new Networking();
 
-        //METODOS
-
         /**
          * Constructor
          */
@@ -127,7 +125,6 @@ namespace Launcher
 
         }
 
-
         private void getChangelog()
         {
             string Url = "http://autoupdate.ao20.com.ar/changelog.txt";
@@ -179,6 +176,33 @@ namespace Launcher
             }
         }
 
+        private static void AbrirJuego()
+        {
+            string gameExecutable = App.ARGENTUM_FILES + "\\Cliente\\Argentum.exe";
+            if (File.Exists(gameExecutable))
+            {
+                ProcessStartInfo startInfo = new ProcessStartInfo();
+                startInfo.FileName = gameExecutable;
+                startInfo.UseShellExecute = false;
+                try
+                {
+                    // Start the process with the info we specified.
+                    Process.Start(startInfo);
+
+                    // Cerramos el launcher.
+                    Environment.Exit(0);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            else
+            {
+                MessageBox.Show("No se pudo abrir el ejecutable del juego, al parecer no existe!");
+            }
+        }
+
         /**
          * Boton para ir a la web
          */
@@ -187,9 +211,10 @@ namespace Launcher
             Process.Start("https://ao20.com.ar");
         }
 
-        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            DragMove();
+            if(e.ChangedButton == MouseButton.Left)
+                DragMove();
         }
 
         /**
@@ -251,41 +276,12 @@ namespace Launcher
             Environment.Exit(0);
         }
 
-        private static void AbrirJuego()
-        {
-            string gameExecutable = App.ARGENTUM_FILES + "\\Cliente\\Argentum.exe";
-            if (File.Exists(gameExecutable))
-            {
-                ProcessStartInfo startInfo = new ProcessStartInfo();
-                startInfo.FileName = gameExecutable;
-                startInfo.UseShellExecute = false;
-                try
-                {
-                    // Start the process with the info we specified.
-                    Process.Start(startInfo);
-
-                    // Cerramos el launcher.
-                    Environment.Exit(0);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            }
-            else
-            {
-                MessageBox.Show("No se pudo abrir el ejecutable del juego, al parecer no existe!");
-            }
-        }
-
         private void btnConfiguracion_Click(object sender, RoutedEventArgs e)
         {
             Configuracion configuracion = new Configuracion();
             configuracion.Show();
         }
     }
-
-
     public class ServerStatus
     {
         public bool ok { get; set; }
