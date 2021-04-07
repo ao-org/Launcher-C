@@ -18,10 +18,6 @@
     </Window.Resources>
 
     <Grid x:Name="gPrincipal">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="424*"/>
-            <ColumnDefinition Width="69*"/>
-        </Grid.ColumnDefinitions>
 
         <Grid.Background>
             <ImageBrush ImageSource="../../assets/img/ventanalauncher.png"/>
