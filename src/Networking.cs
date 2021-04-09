@@ -10,13 +10,13 @@ namespace Launcher.src
 {
     class Networking
     {
-        public static string HOST = "http://autoupdate.ao20.com.ar/";
-        private readonly string VERSIONFILE_URI = HOST + "\\Version.json";
+        public static string HOST = "https://ao20.blob.core.windows.net/ao20/Argentum20/";
+        private readonly string VERSIONFILE_URI = HOST + "Version.json";
 
         private readonly List<string> EXCEPCIONES = new List<string>() {
-            "\\Recursos\\Configuracion.ini",
-            "\\Recursos\\Teclas.ini",
-            "\\Recursos\\Version.json",
+            "/Recursos/Configuracion.ini",
+            "/Recursos/Teclas.ini",
+            "/Recursos/Version.json",
         };
 
         // Acá está la info. del VersionInfo.json
@@ -139,7 +139,7 @@ namespace Launcher.src
             {
                 downloadQueue = new TaskCompletionSource<bool>();
 
-                webClient.DownloadFileAsync(new Uri(HOST + "/updater2/" + file), App.ARGENTUM_FILES + file);
+                webClient.DownloadFileAsync(new Uri(HOST + file), App.ARGENTUM_FILES + file);
 
                 await downloadQueue.Task;
             }

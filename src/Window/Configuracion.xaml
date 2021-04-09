@@ -39,7 +39,7 @@
 
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="../assets/img/ventanalauncher_configuracion_es.png"/>
+            <ImageBrush ImageSource="../../assets/img/ventanalauncher_configuracion_es.png"/>
         </Grid.Background>
         <Grid>
             <CheckBox x:Name="chkEfectos" Content="CheckBox" Height="14"  Style="{StaticResource chkCustom}" Margin="10,75,216,235">
@@ -72,7 +72,7 @@
             <TextBlock Foreground="White"  Margin="42,179,71,130" FontSize="14" >Sincronización Vertical</TextBlock>
             <Button   Width="31"  Margin="236,-15,0,311" Height="28" Click="Button_Click">
                 <Button.Background>
-                    <ImageBrush Stretch="Uniform" ImageSource="../assets/img/boton-cerrar-default.png"/>
+                    <ImageBrush Stretch="Uniform" ImageSource="../../assets/img/boton-cerrar-default.png"/>
                 </Button.Background>
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -107,7 +107,7 @@
                 Width="132"
                 Margin="67,288,68,8" Click="btnAceptar_click">
             <Button.Background>
-                <ImageBrush Stretch="Uniform" ImageSource="../assets/img/boton-aceptar-es-default.png"/>
+                <ImageBrush Stretch="Uniform" ImageSource="../../assets/img/boton-aceptar-es-default.png"/>
             </Button.Background>
             <Button.Template>
 
