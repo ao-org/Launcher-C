@@ -123,8 +123,8 @@
                         </VisualStateManager.VisualStateGroups>
 
                         <StackPanel>
-                            <Image x:Name="jugar" Source="../assets/img/boton-aceptar-es-over.png"  Stretch="Uniform" Visibility="Collapsed"/>
-                            <Image x:Name="jugar2" Source="../assets/img/boton-aceptar-es-off.png"  Stretch="Uniform" Visibility="Collapsed" />
+                            <Image x:Name="jugar" Source="../../assets/img/boton-aceptar-es-over.png"  Stretch="Uniform" Visibility="Collapsed"/>
+                            <Image x:Name="jugar2" Source="../../assets/img/boton-aceptar-es-off.png"  Stretch="Uniform" Visibility="Collapsed" />
                         </StackPanel>
 
                     </Grid>
