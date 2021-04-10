@@ -30,16 +30,17 @@ namespace Launcher.src
                 StreamReader localStreamReader = null;
                 try
                 {
-                    localStreamReader = new StreamReader(VERSIONFILE_PATH);
-                    data = localStreamReader.ReadToEnd();
+                    if (File.Exists(VERSIONFILE_PATH))
+                    {
+                        localStreamReader = new StreamReader(VERSIONFILE_PATH);
+                        data = localStreamReader.ReadToEnd();
+                        localStreamReader.Close();
+                    }
+                   
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
-                }
-                finally
-                {
-                    localStreamReader.Close();
                 }
             }
 
@@ -47,7 +48,8 @@ namespace Launcher.src
             VersionInformation versionLocal = null;
             try
             {
-                versionLocal = JsonSerializer.Deserialize<VersionInformation>(data);
+                if (data != null)
+                    versionLocal = JsonSerializer.Deserialize<VersionInformation>(data);
             }
             catch (JsonException)
             {

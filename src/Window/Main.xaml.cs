@@ -29,7 +29,20 @@ namespace Launcher
             // Inicializamos los componentes de este formulario.
             InitializeComponent();
 
-            BuscarActualizaciones();
+            if(BuscarActualizaciones() == 0)
+            {
+                 MessageBoxResult result = MessageBox.Show("Esta versión del launcher es obsoleta, ¿Desea descargar la ultima versión?", "Versión desactualizada", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                if (result == MessageBoxResult.Yes)
+                {
+                    var uri = "https://ao20.com.ar";
+                    var psi = new System.Diagnostics.ProcessStartInfo();
+                    psi.UseShellExecute = true;
+                    psi.FileName = uri;
+                    System.Diagnostics.Process.Start(psi);
+                }
+                this.Close();
+            }
+
             getServerStatus();
             getChangelog();
             checkConfiguracion();
@@ -48,8 +61,16 @@ namespace Launcher
 
         private int BuscarActualizaciones()
         {
-            local.ArchivosDesactualizados = networking.CheckOutdatedFiles().Count;
-
+            if (networking.CheckOutdatedFiles() != null)
+            {
+                local.ArchivosDesactualizados = networking.CheckOutdatedFiles().Count;
+            }
+            else
+            {
+                //si la función devuelve un 0 quiere decir que hay que actualizar el launcher.
+                return 0;
+            }
+            
             // Comprobamos la version actual del cliente
             if (local.ArchivosDesactualizados == 0)
             {
@@ -154,7 +175,15 @@ namespace Launcher
                 lblDow.Content = "¡Actualización Completada!";
                 lblDow.HorizontalContentAlignment = HorizontalAlignment.Center;
                 lblDow.Foreground = new SolidColorBrush(Colors.Yellow);
+
+                //activo configuración.
                 checkConfiguracion();
+
+                //Si está chekeado el check de comenzar automático abro el juego.
+                if (chkLanzarAutomatico.IsChecked == true)
+                {
+                    AbrirJuego();
+                }
 
                 // Le digo al programa que ya no estamos actualizando mas nada.
                 local.Actualizando = false;

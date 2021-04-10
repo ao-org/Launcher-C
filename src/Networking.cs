@@ -10,7 +10,7 @@ namespace Launcher.src
 {
     class Networking
     {
-        public static string HOST = "https://ao20.blob.core.windows.net/ao20/Argentum20/";
+        public static string HOST = "https://storageao20.blob.core.windows.net/resourcesao20/";
         private readonly string VERSIONFILE_URI = HOST + "Version.json";
 
         private readonly List<string> EXCEPCIONES = new List<string>() {
@@ -31,14 +31,31 @@ namespace Launcher.src
          */
         public List<string> CheckOutdatedFiles()
         {
+
+            fileQueue.Clear();
+
             // Obtenemos los datos necesarios del servidor.
             VersionInformation versionRemota = Get_RemoteVersion();
 
             // Si no existe VersionInfo.json en la carpeta Init, ...
             VersionInformation versionLocal;
+
+            byte[] LauncherHadh;
+            string hashConverted;
+
+            using (var md5 = System.Security.Cryptography.MD5.Create())
+            {
+                using (var stream = File.OpenRead(Directory.GetCurrentDirectory() + "/Launcher - Argentum20.exe"))
+                {                    
+                    LauncherHadh = md5.ComputeHash(stream);
+                    hashConverted = BitConverter.ToString(LauncherHadh).Replace("-", "").ToLower();
+                }
+            }
+
             if (!File.Exists(IO.VERSIONFILE_PATH))
             {
                 // ... parseamos el string que obtuvimos del servidor.
+                
                 versionLocal = IO.Get_LocalVersion(versionRemotaString);
             }
             else // Si existe, ...
@@ -48,12 +65,18 @@ namespace Launcher.src
             }
 
             VersionInformation.File archivoLocal, archivoRemoto;
+            
+            //El archivo posicion 0 en el Version.JSON debe ser el launcher para comparar si está actualizado.
+            if (hashConverted == versionRemota.Files[0].checksum)
+            {
+                return null;
+            }
 
             // Itero la lista de archivos del servidor y lo comparo con lo que tengo en local.
             for (int i = 0; i < versionRemota.Files.Count; i++)
             {
                 archivoLocal = versionLocal.Files[i];
-                archivoRemoto = versionRemota.Files[i];
+                archivoRemoto = versionRemota.Files[i];               
 
                 // Si existe el archivo, comparamos el MD5..
                 if (File.Exists(App.ARGENTUM_FILES + archivoRemoto.name))
@@ -77,6 +100,8 @@ namespace Launcher.src
 
             return fileQueue;
         }
+
+
 
         public VersionInformation Get_RemoteVersion()
         {
@@ -139,7 +164,7 @@ namespace Launcher.src
             {
                 downloadQueue = new TaskCompletionSource<bool>();
 
-                webClient.DownloadFileAsync(new Uri(HOST + file), App.ARGENTUM_FILES + file);
+                webClient.DownloadFileAsync(new Uri(HOST + "Argentum20/" + file), App.ARGENTUM_FILES + file);
 
                 await downloadQueue.Task;
             }
