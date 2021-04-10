@@ -310,6 +310,11 @@ namespace Launcher
             Configuracion configuracion = new Configuracion();
             configuracion.Show();
         }
+
+        private void txtChangelog_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+
+        }
     }
     public class ServerStatus
     {

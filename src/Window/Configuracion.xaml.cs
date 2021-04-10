@@ -2,6 +2,7 @@
 using IniParser.Model;
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Windows;
 
 namespace Launcher.src
@@ -13,7 +14,9 @@ namespace Launcher.src
     {
         AOCfg AOCfg = new AOCfg();
         private static string CONFIG_FILE = App.ARGENTUM_PATH + "Argentum20\\Recursos\\OUTPUT\\Configuracion.ini";
-
+        [DllImport("kernel32")]
+        static extern long WritePrivateProfileString(string Section, string Key, string Value, string FilePath);
+        
         public Configuracion()
         {
             InitializeComponent();
@@ -47,18 +50,12 @@ namespace Launcher.src
 
         private void btnAceptar_click(object sender, RoutedEventArgs e)
         {
-            var parser = new FileIniDataParser();
-            IniData file = parser.ReadFile(CONFIG_FILE);
-
-            file["VIDEO"]["PantallaCompleta"] = Convert.ToInt32(chkPantallaCompleta.IsChecked).ToString();
-            file["VIDEO"]["UtilizarPreCarga"] = Convert.ToInt32(chkPrecargaGrafica.IsChecked).ToString();
-            file["VIDEO"]["CursoresGraficos"] = Convert.ToInt32(chkPunterosGraficcos.IsChecked).ToString();
-            file["VIDEO"]["VSync"] = Convert.ToInt32(chkSincronizacionVertical.IsChecked).ToString();
-
-            file["AUDIO"]["Musica"] = Convert.ToInt32(chkMusica.IsChecked).ToString();
-            file["AUDIO"]["Fx"] = Convert.ToInt32(chkEfectos.IsChecked).ToString();
-
-            parser.WriteFile(CONFIG_FILE, file);
+            WritePrivateProfileString("VIDEO", "PantallaCompleta", Convert.ToInt32(chkPantallaCompleta.IsChecked).ToString(), CONFIG_FILE);
+            WritePrivateProfileString("VIDEO", "UtilizarPreCarga", Convert.ToInt32(chkPrecargaGrafica.IsChecked).ToString(), CONFIG_FILE);
+            WritePrivateProfileString("VIDEO", "CursoresGraficos", Convert.ToInt32(chkPunterosGraficcos.IsChecked).ToString(), CONFIG_FILE);
+            WritePrivateProfileString("VIDEO", "VSync", Convert.ToInt32(chkSincronizacionVertical.IsChecked).ToString(), CONFIG_FILE);
+            WritePrivateProfileString("AUDIO", "Musica", Convert.ToInt32(chkMusica.IsChecked).ToString(), CONFIG_FILE);
+            WritePrivateProfileString("AUDIO", "Fx", Convert.ToInt32(chkEfectos.IsChecked).ToString(), CONFIG_FILE);
 
             this.Close();
         }
