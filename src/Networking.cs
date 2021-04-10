@@ -10,13 +10,12 @@ namespace Launcher.src
 {
     class Networking
     {
-        public static string HOST = "https://storageao20.blob.core.windows.net/resourcesao20/";
-        private readonly string VERSIONFILE_URI = HOST + "Version.json";
+        public static string ROOT_PATH = "https://storageao20.blob.core.windows.net/resourcesao20";
+        private readonly string VERSION_PATH = ROOT_PATH + "/Version.json";
 
         private readonly List<string> EXCEPCIONES = new List<string>() {
-            "/Recursos/Configuracion.ini",
-            "/Recursos/Teclas.ini",
-            "/Recursos/Version.json",
+            "Argentum20\\Recursos\\OUTPUT\\Configuracion.ini",
+            "Argentum20\\Recursos\\OUTPUT\\Teclas.ini"
         };
 
         // Acá está la info. del VersionInfo.json
@@ -65,9 +64,9 @@ namespace Launcher.src
             }
 
             VersionInformation.File archivoLocal, archivoRemoto;
-            
+
             //El archivo posicion 0 en el Version.JSON debe ser el launcher para comparar si está actualizado.
-            if (hashConverted == versionRemota.Files[0].checksum)
+            if (hashConverted.ToUpper() != versionRemota.Manifest.LauncherVersion)
             {
                 return null;
             }
@@ -78,15 +77,27 @@ namespace Launcher.src
                 archivoLocal = versionLocal.Files[i];
                 archivoRemoto = versionRemota.Files[i];               
 
+                //Si existe el archivo
+
+                    //Si está en las excepciones lo omito
+
+                    //
+
+
+
                 // Si existe el archivo, comparamos el MD5..
-                if (File.Exists(App.ARGENTUM_FILES + archivoRemoto.name))
+                if (File.Exists(App.ARGENTUM_PATH + "\\" + archivoRemoto.name))
                 {
                     // Si NO coinciden los hashes, ...
-                    if (!EXCEPCIONES.Contains(archivoRemoto.name) && IO.checkMD5(archivoLocal.name) != archivoRemoto.checksum)
+                    if (!EXCEPCIONES.Contains(archivoRemoto.name))
                     {
-                        // ... lo agrego a la lista de archivos a descargar.
-                        fileQueue.Add(archivoRemoto.name);
+                        if (IO.checkMD5(archivoLocal.name) != archivoRemoto.checksum)
+                        {
+                            // ... lo agrego a la lista de archivos a descargar.
+                            fileQueue.Add(archivoRemoto.name);
+                        }
                     }
+
                 }
                 else // Si existe el archivo, ...
                 {
@@ -110,7 +121,7 @@ namespace Launcher.src
             try
             {
                 // Envio un GET al servidor con el JSON de el archivo de versionado.
-                versionRemotaString = webClient.DownloadString(VERSIONFILE_URI);
+                versionRemotaString = webClient.DownloadString(VERSION_PATH);
                 
                 // Me fijo que la response NO ESTÉ vacía.
                 if (versionRemotaString == null)
@@ -142,7 +153,7 @@ namespace Launcher.src
         {
             foreach(string folder in versionRemota.Folders)
             {
-                string currentFolder = App.ARGENTUM_FILES + folder;
+                string currentFolder = App.ARGENTUM_PATH + "\\" + folder;
 
                 if (!Directory.Exists(currentFolder))
                 {
@@ -159,12 +170,13 @@ namespace Launcher.src
          */
         public async Task IniciarDescarga(WebClient webClient)
         {
+            Uri uriDescarga;
             //files contains all URL links
             foreach (string file in fileQueue)
             {
                 downloadQueue = new TaskCompletionSource<bool>();
-
-                webClient.DownloadFileAsync(new Uri(HOST + "Argentum20/" + file), App.ARGENTUM_FILES + file);
+                uriDescarga = new Uri(ROOT_PATH + "/" + file);
+                webClient.DownloadFileAsync(uriDescarga, App.ARGENTUM_PATH + file);
 
                 await downloadQueue.Task;
             }

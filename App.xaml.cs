@@ -13,7 +13,7 @@ namespace Launcher
         private static Mutex _mutex = null;
 		
 		// Todos los archivos del cliente en la subcarpeta Argentum20, para no mezclarlos con los archivos del Launcher.
-        public static string ARGENTUM_FILES = Directory.GetCurrentDirectory() + "\\Argentum20\\";
+        public static string ARGENTUM_PATH = Directory.GetCurrentDirectory() + "\\";
 
         protected override void OnStartup(StartupEventArgs e)
 		{

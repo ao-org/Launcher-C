@@ -29,7 +29,7 @@ namespace Launcher
             // Inicializamos los componentes de este formulario.
             InitializeComponent();
 
-            if(BuscarActualizaciones() == 0)
+            if(BuscarActualizaciones() == null)
             {
                  MessageBoxResult result = MessageBox.Show("Esta versión del launcher es obsoleta, ¿Desea descargar la ultima versión?", "Versión desactualizada", MessageBoxButton.YesNo, MessageBoxImage.Information);
                 if (result == MessageBoxResult.Yes)
@@ -50,7 +50,7 @@ namespace Launcher
 
         private void checkConfiguracion()
         {
-            if(!File.Exists(App.ARGENTUM_FILES + "Recursos\\OUTPUT\\Configuracion.ini")){
+            if(!File.Exists(Directory.GetCurrentDirectory() + "\\Argentum20\\" + "Recursos\\OUTPUT\\Configuracion.ini")){
                 btnConfiguracion.Visibility = Visibility.Hidden;
             }
             else
@@ -207,7 +207,7 @@ namespace Launcher
 
         private static void AbrirJuego()
         {
-            string gameExecutable = App.ARGENTUM_FILES + "\\Cliente\\Argentum.exe";
+            string gameExecutable = App.ARGENTUM_PATH + "Argentum20\\Cliente\\Argentum.exe";
             if (File.Exists(gameExecutable))
             {
                 ProcessStartInfo startInfo = new ProcessStartInfo();

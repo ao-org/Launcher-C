@@ -8,6 +8,7 @@ namespace Launcher.src
         {
             public int TotalFiles { get; set; }
             public int TotalFolders { get; set; }
+            public string LauncherVersion { get; set; }
         }
 
         public class File

@@ -27,9 +27,6 @@
                             <Trigger Property="IsChecked" Value="False">
                                 <Setter TargetName="checkBoxUncheck" Property="Visibility" Value="Hidden"/>
                             </Trigger>
-                            <!--<Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="checkBoxImage" Property="Source" Value="/Images/checkcircle_hover.png"/>
-                            </Trigger>-->
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
@@ -42,35 +39,35 @@
             <ImageBrush ImageSource="../../assets/img/ventanalauncher_configuracion_es.png"/>
         </Grid.Background>
         <Grid>
-            <CheckBox x:Name="chkEfectos" Content="CheckBox" Height="14"  Style="{StaticResource chkCustom}" Margin="10,75,216,235">
+            <CheckBox x:Name="chkEfectos" Content="CheckBox" Height="14"    Margin="18,75,216,235">
             </CheckBox>
             <TextBlock Foreground="White"  Margin="42,80,108,229" FontSize="14" >Efectos Activados</TextBlock>
         </Grid>
         <Grid>
-            <CheckBox x:Name="chkMusica" Content="CheckBox" Height="14"  Style="{StaticResource chkCustom}" Margin="10,94,216,216">
+            <CheckBox x:Name="chkMusica" Content="CheckBox" Height="14"    Margin="18,94,216,216">
             </CheckBox>
             <TextBlock Foreground="White"  Margin="42,99,108,210" FontSize="14" >Música Activada</TextBlock>
         </Grid>
         <Grid>
-            <CheckBox x:Name="chkPantallaCompleta" Content="CheckBox" Height="14"  Style="{StaticResource chkCustom}" Margin="10,114,216,196">
+            <CheckBox x:Name="chkPantallaCompleta" Content="CheckBox" Height="14"    Margin="18,114,216,196">
             </CheckBox>
             <TextBlock Foreground="White"  Margin="42,119,108,190" FontSize="14" >Pantalla Completa</TextBlock>
         </Grid>
         <Grid>
-            <CheckBox x:Name="chkPunterosGraficcos" Content="CheckBox" Height="14"  Style="{StaticResource chkCustom}" Margin="10,133,216,177">
+            <CheckBox x:Name="chkPunterosGraficcos" Content="CheckBox" Height="14"    Margin="18,133,216,177">
             </CheckBox>
             <TextBlock Foreground="White"  Margin="42,138,108,171" FontSize="14" >Punteros Gráficos</TextBlock>
         </Grid>
         <Grid Margin="0,39,0,-39">
-            <CheckBox x:Name="chkPrecargaGrafica" Content="CheckBox" Height="14"  Style="{StaticResource chkCustom}" Margin="10,114,216,196">
+            <CheckBox x:Name="chkPrecargaGrafica" Content="CheckBox" Height="14"    Margin="18,114,216,196">
             </CheckBox>
             <TextBlock Foreground="White"  Margin="42,119,108,190" FontSize="14" >Precarga Gráfica</TextBlock>
         </Grid>
         <Grid>
-            <CheckBox x:Name="chkSincronizacionVertical" Content="CheckBox" Height="14"  Style="{StaticResource chkCustom}" Margin="10,174,216,136">
+            <CheckBox x:Name="chkSincronizacionVertical" Content="CheckBox" Height="14"    Margin="18,174,211,136">
             </CheckBox>
             <TextBlock Foreground="White"  Margin="42,179,71,130" FontSize="14" >Sincronización Vertical</TextBlock>
-            <Button   Width="31"  Margin="236,-15,0,311" Height="28" Click="Button_Click">
+            <Button   Width="31"  Margin="236,-5,0,301" Height="28" Click="Button_Click">
                 <Button.Background>
                     <ImageBrush Stretch="Uniform" ImageSource="../../assets/img/boton-cerrar-default.png"/>
                 </Button.Background>

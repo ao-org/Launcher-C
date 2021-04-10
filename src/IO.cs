@@ -12,7 +12,7 @@ namespace Launcher.src
         public int ArchivosDesactualizados = 0;
         public int ArchivoActual = 0;
 
-        public static string VERSIONFILE_PATH = App.ARGENTUM_FILES + "\\Recursos\\Version.json";
+        public static string VERSIONFILE_PATH = App.ARGENTUM_PATH + "Version.json";
 
 #nullable enable
         public static VersionInformation Get_LocalVersion(string? customVersionData)
@@ -66,7 +66,7 @@ namespace Launcher.src
         {
             using (var md5 = MD5.Create())
             {
-                using (var stream = File.OpenRead(App.ARGENTUM_FILES + filename))
+                using (var stream = File.OpenRead(App.ARGENTUM_PATH + filename))
                 {
                     var hash = md5.ComputeHash(stream);
                     return BitConverter.ToString(hash).Replace("-", "").ToLower();

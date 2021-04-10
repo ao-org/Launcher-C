@@ -12,7 +12,7 @@ namespace Launcher.src
     public partial class Configuracion : Window
     {
         AOCfg AOCfg = new AOCfg();
-        private static string CONFIG_FILE = App.ARGENTUM_FILES + "\\Recursos\\OUTPUT\\Configuracion.ini";
+        private static string CONFIG_FILE = App.ARGENTUM_PATH + "Argentum20\\Recursos\\OUTPUT\\Configuracion.ini";
 
         public Configuracion()
         {

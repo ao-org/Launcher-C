@@ -210,7 +210,7 @@
                 </Button.Template>
 
             </Button>
-            <Button   Width="31"  Margin="462,0,0,451.2" Height="28" Click="Button_Click">
+            <Button   Width="31"  Margin="464,2,-2,433" Height="28" Click="Button_Click">
                 <Button.Background>
                     <ImageBrush Stretch="Uniform" ImageSource="../../assets/img/boton-cerrar-default.png"/>
                 </Button.Background>
