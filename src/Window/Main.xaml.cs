@@ -29,7 +29,7 @@ namespace Launcher
             // Inicializamos los componentes de este formulario.
             InitializeComponent();
 
-            if(BuscarActualizaciones() == null)
+            if(BuscarActualizaciones() == -1)
             {
                  MessageBoxResult result = MessageBox.Show("Esta versión del launcher es obsoleta, ¿Desea descargar la ultima versión?", "Versión desactualizada", MessageBoxButton.YesNo, MessageBoxImage.Information);
                 if (result == MessageBoxResult.Yes)
@@ -68,7 +68,7 @@ namespace Launcher
             else
             {
                 //si la función devuelve un 0 quiere decir que hay que actualizar el launcher.
-                return 0;
+                return -1;
             }
             
             // Comprobamos la version actual del cliente
