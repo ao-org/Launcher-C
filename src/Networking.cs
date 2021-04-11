@@ -10,7 +10,7 @@ namespace Launcher.src
 {
     class Networking
     {
-        public static string ROOT_PATH = "https://storageao20.blob.core.windows.net/resourcesao20";
+        public static string ROOT_PATH = "https://d2r76n6n562nxd.cloudfront.net";
         private readonly string VERSION_PATH = ROOT_PATH + "/Version.json";
 
         private readonly List<string> EXCEPCIONES = new List<string>() {
