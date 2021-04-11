@@ -10,6 +10,10 @@ namespace Launcher
     /// </summary>
     public partial class App : Application
     {
+        // Obtiene el nombre del .exe que se va a generar al compilar la aplicación.
+        public static string ExecutableName = System.Reflection.Assembly.GetEntryAssembly().GetName().Name + ".exe";
+
+        // Para prevenir múltiples ejecuciones de esta aplicación.
         private static Mutex _mutex = null;
 		
 		// Todos los archivos del cliente en la subcarpeta Argentum20, para no mezclarlos con los archivos del Launcher.
@@ -18,7 +22,7 @@ namespace Launcher
         protected override void OnStartup(StartupEventArgs e)
 		{
             // Chequeo que solo haya 1 instancia de la aplicacion.
-            _mutex = new Mutex(true, "Launcher - Argentum20", out bool singleInstance);
+            _mutex = new Mutex(true, "LauncherAO20", out bool singleInstance);
 			if (!singleInstance)
 			{
 				// ya hay una instancia de esta aplicación, cerramos la nueva.

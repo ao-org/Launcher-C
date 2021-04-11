@@ -44,7 +44,7 @@ namespace Launcher.src
 
             using (var md5 = System.Security.Cryptography.MD5.Create())
             {
-                using (var stream = File.OpenRead(Directory.GetCurrentDirectory() + "/Launcher - Argentum20.exe"))
+                using (var stream = File.OpenRead(Directory.GetCurrentDirectory() + "/" + App.ExecutableName))
                 {                    
                     LauncherHadh = md5.ComputeHash(stream);
                     hashConverted = BitConverter.ToString(LauncherHadh).Replace("-", "").ToLower();

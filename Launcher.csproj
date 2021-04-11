@@ -7,7 +7,7 @@
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Argentum.ico</ApplicationIcon>
     <StartupObject>Launcher.App</StartupObject>
-    <AssemblyName>Launcher - Argentum20</AssemblyName>
+    <AssemblyName>LauncherAO20</AssemblyName>
     <PackageProjectUrl>https://ao20.com.ar</PackageProjectUrl>
     <RepositoryType>Private</RepositoryType>
     <Authors>Abusiv0, Jopi, HarThaoS, WyroX</Authors>
