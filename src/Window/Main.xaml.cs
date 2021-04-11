@@ -13,6 +13,9 @@ using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Text.Json;
+using System.Runtime.InteropServices;
+using IniParser.Model;
+using IniParser;
 
 namespace Launcher
 {
@@ -20,6 +23,9 @@ namespace Launcher
     {
         private readonly IO local = new IO();
         private readonly Networking networking = new Networking();
+
+        [DllImport("kernel32")]
+        static extern long WritePrivateProfileString(string Section, string Key, string Value, string FilePath);
 
         /**
          * Constructor
@@ -46,16 +52,26 @@ namespace Launcher
             getServerStatus();
             getChangelog();
             checkConfiguracion();
+
+            if (chkLanzarAutomatico.Visibility == Visibility.Visible)
+            {
+                var parser = new FileIniDataParser();
+                IniData file = parser.ReadFile(Configuracion.CONFIG_FILE);
+
+                chkLanzarAutomatico.IsChecked = Convert.ToBoolean(Convert.ToInt32(file["OPCIONES"]["LanzarAutomatico"]));
+            }
         }
 
         private void checkConfiguracion()
         {
             if(!File.Exists(Configuracion.CONFIG_FILE)){
                 btnConfiguracion.Visibility = Visibility.Hidden;
+                chkLanzarAutomatico.Visibility = Visibility.Hidden;
             }
             else
             {
                 btnConfiguracion.Visibility = Visibility.Visible;
+                chkLanzarAutomatico.Visibility = Visibility.Visible;
             }
         }
 
@@ -100,7 +116,7 @@ namespace Launcher
                 local.Actualizando = true;
 
                 // Anunciamos el numero de archivo que estamos descargando
-                lblDow.Content = "Descargando " + networking.fileQueue[local.ArchivoActual] + ". Archivo " + local.ArchivoActual + " de " + (networking.fileQueue.Count - 1);
+                lblDow.Content = "Descargando " + networking.fileQueue[local.ArchivoActual] + ". Archivo " + (local.ArchivoActual + 1) + " de " + networking.fileQueue.Count;
                 lblDow.HorizontalContentAlignment = HorizontalAlignment.Left;
                 lblDow.Foreground = new SolidColorBrush(Colors.White);
 
@@ -165,12 +181,21 @@ namespace Launcher
             // Decimos que ya terminó esta descarga
             networking.downloadQueue.SetResult(true);
 
-            // Si NO quedan archivos pendientes por descargar...
-            if (local.ArchivoActual == (networking.fileQueue.Count - 1))
+            // Si quedan, actualizamos el label.
+            if (local.ArchivoActual < networking.fileQueue.Count)
+            {
+                local.ArchivoActual++;
+
+                lblDow.Content = "Descargando " + networking.fileQueue[local.ArchivoActual] + ". Archivo " + (local.ArchivoActual + 1) + " de " + networking.fileQueue.Count;
+                lblDow.HorizontalContentAlignment = HorizontalAlignment.Left;
+                grdPbarLlena.Width = (416 * local.ArchivoActual) / (networking.fileQueue.Count - 1);
+                grdPbarLlena.Visibility = Visibility.Visible;
+            }
+            else
             {
                 // Actualizo el VersionInfo.json
                 IO.SaveLatestVersionInfo(networking.versionRemotaString);
-                
+
                 // Actualizo el label.
                 lblDow.Content = "¡Actualización Completada!";
                 lblDow.HorizontalContentAlignment = HorizontalAlignment.Center;
@@ -190,18 +215,7 @@ namespace Launcher
                 local.ArchivoActual = 0;
                 local.ArchivosDesactualizados = 0;
 
-                return;
-            }
-
-            // Si quedan, actualizamos el label.
-            if (local.ArchivoActual < networking.fileQueue.Count)
-            {
-                local.ArchivoActual++;
-
-                lblDow.Content = "Descargando " + networking.fileQueue[local.ArchivoActual] + ". Archivo " + local.ArchivoActual + " de " + (networking.fileQueue.Count - 1);
-                lblDow.HorizontalContentAlignment = HorizontalAlignment.Left;
-                grdPbarLlena.Width = (416 * local.ArchivoActual) / (networking.fileQueue.Count - 1);
-                grdPbarLlena.Visibility = Visibility.Visible;
+                grdPbarLlena.Width = 416;
             }
         }
 
@@ -286,18 +300,18 @@ namespace Launcher
 
         private void image_discord_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("https://discord.gg/e3juVbF");
+            OpenUrl("https://discord.gg/e3juVbF");
         }
 
         private void image_facebook_Click(object sender, RoutedEventArgs e)
         {
 
-            Process.Start("https://www.facebook.com/ao20oficial/"); 
+            OpenUrl("https://www.facebook.com/ao20oficial/"); 
         }
 
         private void image_instagram_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("https://www.instagram.com/ao20oficial/?hl=es");
+            OpenUrl("https://www.instagram.com/ao20oficial/?hl=es");
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -314,6 +328,40 @@ namespace Launcher
         private void txtChangelog_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
 
+        }
+
+        private void OpenUrl(string url)
+        {
+            try
+            {
+                Process.Start(url);
+            }
+            catch
+            {
+                // hack because of this: https://github.com/dotnet/corefx/issues/10361
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    url = url.Replace("&", "^&");
+                    Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true });
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    Process.Start("xdg-open", url);
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                {
+                    Process.Start("open", url);
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
+
+        private void chkLanzarAutomatico_Checked(object sender, RoutedEventArgs e)
+        {
+            WritePrivateProfileString("OPCIONES", "LanzarAutomatico", Convert.ToInt32(chkLanzarAutomatico.IsChecked).ToString(), Configuracion.CONFIG_FILE);
         }
     }
     public class ServerStatus

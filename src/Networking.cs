@@ -10,8 +10,8 @@ namespace Launcher.src
 {
     class Networking
     {
-        public static string ROOT_PATH = "https://d2r76n6n562nxd.cloudfront.net";
-        private readonly string VERSION_PATH = ROOT_PATH + "/Version.json";
+        public static string ROOT_PATH = "https://d2r76n6n562nxd.cloudfront.net/";
+        private readonly string VERSION_PATH = ROOT_PATH + "Version.json";
 
         private readonly List<string> EXCEPCIONES = new List<string>() {
             "Argentum20\\Recursos\\OUTPUT\\Configuracion.ini",
@@ -177,7 +177,7 @@ namespace Launcher.src
             foreach (string file in fileQueue)
             {
                 downloadQueue = new TaskCompletionSource<bool>();
-                uriDescarga = new Uri(ROOT_PATH + "/" + file);
+                uriDescarga = new Uri(ROOT_PATH + file);
                 webClient.DownloadFileAsync(uriDescarga, App.ARGENTUM_PATH + file);
 
                 await downloadQueue.Task;

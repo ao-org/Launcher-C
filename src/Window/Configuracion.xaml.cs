@@ -14,6 +14,7 @@ namespace Launcher.src
     {
         AOCfg AOCfg = new AOCfg();
         public static string CONFIG_FILE = App.ARGENTUM_PATH + "Argentum20\\Recursos\\OUTPUT\\Configuracion.ini";
+        
         [DllImport("kernel32")]
         static extern long WritePrivateProfileString(string Section, string Key, string Value, string FilePath);
         

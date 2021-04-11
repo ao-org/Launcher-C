@@ -17,30 +17,30 @@
         <Style x:Key="AlegreyaAO">
             <Setter Property="TextElement.FontFamily" Value="../../assets/fonts/#Alegreya_Sans_AO"/>
         </Style>
-        
-            <Style TargetType="{x:Type CheckBox}" x:Key="chkCustom">
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type CheckBox}">
-                            <Grid>
-                                <Image x:Name="checkBoxImage" Source="../assets/img/checkbox-small-off.png"></Image>
-                                <Image x:Name="checkBoxUncheck" Source="../assets/img/checkbox-small-on.png"></Image>
-                            </Grid>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsChecked" Value="True">
-                                    <Setter TargetName="checkBoxUncheck" Property="Visibility" Value="visible"/>
-                                </Trigger>
-                                <Trigger Property="IsChecked" Value="False">
-                                    <Setter TargetName="checkBoxUncheck" Property="Visibility" Value="Hidden"/>
-                                </Trigger>
-                                <!--<Trigger Property="IsMouseOver" Value="True">
+
+        <Style TargetType="{x:Type CheckBox}" x:Key="chkCustom">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <Grid>
+                            <Image x:Name="checkBoxImage" Source="../assets/img/checkbox-small-off.png"></Image>
+                            <Image x:Name="checkBoxUncheck" Source="../assets/img/checkbox-small-on.png"></Image>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="checkBoxUncheck" Property="Visibility" Value="visible"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter TargetName="checkBoxUncheck" Property="Visibility" Value="Hidden"/>
+                            </Trigger>
+                            <!--<Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="checkBoxImage" Property="Source" Value="/Images/checkcircle_hover.png"/>
                             </Trigger>-->
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
 
     <Grid x:Name="gPrincipal">
@@ -283,7 +283,7 @@
                 </Button.Template>
             </Button>
 
-            <Button x:Name="image_instagram" Height="20" Width="20" Margin="10,0,120,0" Click="image_instagram_Click">
+            <Button x:Name="image_instagram" Width="20" Margin="10,0,120,0" Click="image_instagram_Click" Height="20" VerticalAlignment="Top">
                 <Button.Background>
                     <ImageBrush Stretch="Uniform" ImageSource="../../assets/img/ico-instagram-default.png"/>
                 </Button.Background>
@@ -386,6 +386,6 @@
 						Height="23"
 						Padding="0,2,0,0" 
 						Foreground="#C3C3C3" Width="411" Grid.ColumnSpan="2" FontWeight="Bold"/>
-            <CheckBox x:Name="chkLanzarAutomatico" Content="Lanzar luego de actualizar"  Margin="170,404,32,39" Foreground="#8a8988" FontFamily="Alegreya Sans AO" FontWeight="Normal"/>
+        <CheckBox x:Name="chkLanzarAutomatico" Content="Lanzar luego de actualizar"  Margin="170,404,32,39" Foreground="#8a8988" FontFamily="Alegreya Sans AO" FontWeight="Normal" Checked="chkLanzarAutomatico_Checked"/>
     </Grid>
 </Window>
