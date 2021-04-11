@@ -386,6 +386,6 @@
 						Height="23"
 						Padding="0,2,0,0" 
 						Foreground="#C3C3C3" Width="411" Grid.ColumnSpan="2" FontWeight="Bold"/>
-            <CheckBox x:Name="chkLanzarAutomatico" Content="Lanzar luego de atualizar"  Margin="170,404,32,39" Foreground="#8a8988" FontFamily="Alegreya Sans AO" FontWeight="Normal"/>
+            <CheckBox x:Name="chkLanzarAutomatico" Content="Lanzar luego de actualizar"  Margin="170,404,32,39" Foreground="#8a8988" FontFamily="Alegreya Sans AO" FontWeight="Normal"/>
     </Grid>
 </Window>

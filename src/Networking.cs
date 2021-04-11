@@ -66,10 +66,12 @@ namespace Launcher.src
             VersionInformation.File archivoLocal, archivoRemoto;
 
             //El archivo posicion 0 en el Version.JSON debe ser el launcher para comparar si está actualizado.
-            if (hashConverted.ToUpper() != versionRemota.Manifest.LauncherVersion)
-            {
-                return null;
-            }
+            #if !DEBUG
+                if (hashConverted.ToUpper() != versionRemota.Manifest.LauncherVersion)
+                {
+                    return null;
+                }
+            #endif
 
             // Itero la lista de archivos del servidor y lo comparo con lo que tengo en local.
             for (int i = 0; i < versionRemota.Files.Count; i++)
@@ -86,7 +88,7 @@ namespace Launcher.src
 
 
                 // Si existe el archivo, comparamos el MD5..
-                if (File.Exists(App.ARGENTUM_PATH + "\\" + archivoRemoto.name))
+                if (File.Exists(App.ARGENTUM_PATH + archivoRemoto.name))
                 {
                     // Si NO coinciden los hashes, ...
                     if (!EXCEPCIONES.Contains(archivoRemoto.name))

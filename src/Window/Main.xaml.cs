@@ -50,7 +50,7 @@ namespace Launcher
 
         private void checkConfiguracion()
         {
-            if(!File.Exists(Directory.GetCurrentDirectory() + "\\Argentum20\\" + "Recursos\\OUTPUT\\Configuracion.ini")){
+            if(!File.Exists(Configuracion.CONFIG_FILE)){
                 btnConfiguracion.Visibility = Visibility.Hidden;
             }
             else
