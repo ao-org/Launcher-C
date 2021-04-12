@@ -181,14 +181,14 @@ namespace Launcher
             // Decimos que ya terminó esta descarga
             networking.downloadQueue.SetResult(true);
 
+            local.ArchivoActual++;
+
             // Si quedan, actualizamos el label.
             if (local.ArchivoActual < networking.fileQueue.Count)
             {
-                local.ArchivoActual++;
-
                 lblDow.Content = "Descargando " + networking.fileQueue[local.ArchivoActual] + ". Archivo " + (local.ArchivoActual + 1) + " de " + networking.fileQueue.Count;
                 lblDow.HorizontalContentAlignment = HorizontalAlignment.Left;
-                grdPbarLlena.Width = (416 * local.ArchivoActual) / (networking.fileQueue.Count - 1);
+                grdPbarLlena.Width = (416 * local.ArchivoActual) / networking.fileQueue.Count;
                 grdPbarLlena.Visibility = Visibility.Visible;
             }
             else
@@ -359,7 +359,7 @@ namespace Launcher
             }
         }
 
-        private void chkLanzarAutomatico_Checked(object sender, RoutedEventArgs e)
+        private void chkLanzarAutomatico_Click(object sender, RoutedEventArgs e)
         {
             WritePrivateProfileString("OPCIONES", "LanzarAutomatico", Convert.ToInt32(chkLanzarAutomatico.IsChecked).ToString(), Configuracion.CONFIG_FILE);
         }

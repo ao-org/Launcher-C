@@ -63,8 +63,6 @@ namespace Launcher.src
                 versionLocal = IO.Get_LocalVersion(null);
             }
 
-            VersionInformation.File archivoLocal, archivoRemoto;
-
             //El archivo posicion 0 en el Version.JSON debe ser el launcher para comparar si está actualizado.
             #if !DEBUG
                 if (hashConverted.ToUpper() != versionRemota.Manifest.LauncherVersion)
@@ -74,37 +72,26 @@ namespace Launcher.src
             #endif
 
             // Itero la lista de archivos del servidor y lo comparo con lo que tengo en local.
-            for (int i = 0; i < versionRemota.Files.Count; i++)
+            foreach (string filename in versionRemota.Files.Keys)
             {
-                archivoLocal = versionLocal.Files[i];
-                archivoRemoto = versionRemota.Files[i];               
-
-                //Si existe el archivo
-
-                    //Si está en las excepciones lo omito
-
-                    //
-
-
-
                 // Si existe el archivo, comparamos el MD5..
-                if (File.Exists(App.ARGENTUM_PATH + archivoRemoto.name))
+                if (File.Exists(App.ARGENTUM_PATH + filename))
                 {
                     // Si NO coinciden los hashes, ...
-                    if (!EXCEPCIONES.Contains(archivoRemoto.name))
+                    if (!EXCEPCIONES.Contains(filename))
                     {
-                        if (IO.checkMD5(archivoLocal.name) != archivoRemoto.checksum)
+                        if (IO.checkMD5(filename) != versionRemota.Files[filename])
                         {
                             // ... lo agrego a la lista de archivos a descargar.
-                            fileQueue.Add(archivoRemoto.name);
+                            fileQueue.Add(filename);
                         }
                     }
 
                 }
-                else // Si existe el archivo, ...
+                else // Si no existe el archivo ...
                 {
                     // ... lo agrego a la lista de archivos a descargar.
-                    fileQueue.Add(archivoRemoto.name);
+                    fileQueue.Add(filename);
                 }
             }
 

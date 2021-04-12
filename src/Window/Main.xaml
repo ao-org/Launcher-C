@@ -44,11 +44,6 @@
     </Window.Resources>
 
     <Grid x:Name="gPrincipal">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="356*"/>
-            <ColumnDefinition Width="137*"/>
-        </Grid.ColumnDefinitions>
-
         <Grid.Background>
             <ImageBrush ImageSource="../../assets/img/ventanalauncher.png"/>
         </Grid.Background>
@@ -62,7 +57,7 @@
                     <TranslateTransform/>
                 </TransformGroup>
             </Grid.RenderTransform>
-            <Label x:Name="txtStatus" Content="" Style="{StaticResource Cardo}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="334,167,0,0" Width="122" Foreground="#FF3EE83E" FontSize="18" FontWeight="ExtraBlack" HorizontalContentAlignment="Center" />
+            <Label x:Name="txtStatus" Content="" Style="{StaticResource Cardo}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="334,171,0,0" Width="122" Foreground="#FF3EE83E" FontSize="14" FontWeight="ExtraBlack" HorizontalContentAlignment="Center" />
 
             <Button Click="btnJugar_Click" 
 						x:Name="btnJugar" 
@@ -385,7 +380,7 @@
 						Margin="44,431,38,0" 
 						Height="23"
 						Padding="0,2,0,0" 
-						Foreground="#C3C3C3" Width="411" Grid.ColumnSpan="2" FontWeight="Bold"/>
-        <CheckBox x:Name="chkLanzarAutomatico" Content="Lanzar luego de actualizar"  Margin="170,404,32,39" Foreground="#8a8988" FontFamily="Alegreya Sans AO" FontWeight="Normal" Checked="chkLanzarAutomatico_Checked"/>
+						Foreground="#C3C3C3" Width="411" FontWeight="Bold" FontSize="11"/>
+        <CheckBox x:Name="chkLanzarAutomatico" Content="Lanzar luego de actualizar"  Margin="170,404,32,39" Foreground="#8a8988" FontFamily="Alegreya Sans AO" FontWeight="Normal" Click="chkLanzarAutomatico_Click"/>
     </Grid>
 </Window>
