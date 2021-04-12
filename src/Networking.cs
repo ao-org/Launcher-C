@@ -12,7 +12,7 @@ namespace Launcher.src
     {
         public static string ROOT_PATH = "https://d2r76n6n562nxd.cloudfront.net/";
         private readonly string VERSION_PATH = ROOT_PATH + "Version.json";
-        public static string API_PATH = "http://api.ao20.com.ar/";
+        public static string API_PATH = "https://api.ao20.com.ar/";
         private readonly List<string> EXCEPCIONES = new List<string>() {
             "Argentum20\\Recursos\\OUTPUT\\Configuracion.ini",
             "Argentum20\\Recursos\\OUTPUT\\Teclas.ini"
@@ -39,15 +39,16 @@ namespace Launcher.src
             // Si no existe VersionInfo.json en la carpeta Init, ...
             VersionInformation versionLocal;
 
-            byte[] LauncherHadh;
-            string hashConverted;
+            byte[] dllHash;
+            string dllHashConverted;
 
+            //Me traigo el  MD5 de la dll del launcher
             using (var md5 = System.Security.Cryptography.MD5.Create())
             {
-                using (var stream = File.OpenRead(Directory.GetCurrentDirectory() + "/" + App.ExecutableName))
+                using (var stream = File.OpenRead(Directory.GetCurrentDirectory() + "/" + App.ExecutableName + ".dll"))
                 {                    
-                    LauncherHadh = md5.ComputeHash(stream);
-                    hashConverted = BitConverter.ToString(LauncherHadh).Replace("-", "").ToLower();
+                    dllHash = md5.ComputeHash(stream);
+                    dllHashConverted = BitConverter.ToString(dllHash).Replace("-", "").ToLower();
                 }
             }
 
@@ -64,12 +65,12 @@ namespace Launcher.src
             }
 
             //El archivo posicion 0 en el Version.JSON debe ser el launcher para comparar si está actualizado.
-            #if !DEBUG
-                if (hashConverted.ToUpper() != versionRemota.Manifest.LauncherVersion)
+#if !DEBUG
+                if (dllHashConverted.ToUpper() != versionRemota.Manifest.LauncherVersion)
                 {
                     return null;
                 }
-            #endif
+#endif
 
             // Itero la lista de archivos del servidor y lo comparo con lo que tengo en local.
             foreach (string filename in versionRemota.Files.Keys)

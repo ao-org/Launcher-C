@@ -11,7 +11,7 @@ namespace Launcher
     public partial class App : Application
     {
         // Obtiene el nombre del .exe que se va a generar al compilar la aplicación.
-        public static string ExecutableName = System.Reflection.Assembly.GetEntryAssembly().GetName().Name + ".exe";
+        public static string ExecutableName = System.Reflection.Assembly.GetEntryAssembly().GetName().Name;
 
         // Para prevenir múltiples ejecuciones de esta aplicación.
         private static Mutex _mutex = null;

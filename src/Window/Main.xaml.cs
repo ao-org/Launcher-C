@@ -142,13 +142,13 @@ namespace Launcher
             try
             {
                 HttpClient client = new HttpClient();
+                client.Timeout = TimeSpan.FromSeconds(5);
                 HttpResponseMessage response = await client.GetAsync(Networking.API_PATH);
-                client.Timeout = new TimeSpan(0, 0, 0, 10);
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
 
                 ServerStatus serverStatus = JsonSerializer.Deserialize<ServerStatus>(responseBody);
-
+                //
                 if (serverStatus != null)
                 {
                     if (serverStatus.ok)
