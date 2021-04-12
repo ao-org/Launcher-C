@@ -142,7 +142,7 @@ namespace Launcher
             try
             {
                 HttpClient client = new HttpClient();
-                HttpResponseMessage response = await client.GetAsync("http://api.ao20.com.ar/");
+                HttpResponseMessage response = await client.GetAsync(Networking.API_PATH);
                 client.Timeout = new TimeSpan(0, 0, 0, 10);
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();

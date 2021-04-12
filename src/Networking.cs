@@ -12,7 +12,7 @@ namespace Launcher.src
     {
         public static string ROOT_PATH = "https://d2r76n6n562nxd.cloudfront.net/";
         private readonly string VERSION_PATH = ROOT_PATH + "Version.json";
-
+        public static string API_PATH = "http://api.ao20.com.ar/";
         private readonly List<string> EXCEPCIONES = new List<string>() {
             "Argentum20\\Recursos\\OUTPUT\\Configuracion.ini",
             "Argentum20\\Recursos\\OUTPUT\\Teclas.ini"
