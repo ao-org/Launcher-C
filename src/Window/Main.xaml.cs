@@ -139,40 +139,56 @@ namespace Launcher
 
         private async void getServerStatus()
         {
-            HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync("http://api.ao20.com.ar/");
-            response.EnsureSuccessStatusCode();
-            string responseBody = await response.Content.ReadAsStringAsync();
-
-            ServerStatus serverStatus = JsonSerializer.Deserialize<ServerStatus>(responseBody);    
-            
-            if(serverStatus != null)
+            try
             {
-                if (serverStatus.ok)
+                HttpClient client = new HttpClient();
+                HttpResponseMessage response = await client.GetAsync("http://api.ao20.com.ar/");
+                client.Timeout = new TimeSpan(0, 0, 0, 10);
+                response.EnsureSuccessStatusCode();
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                ServerStatus serverStatus = JsonSerializer.Deserialize<ServerStatus>(responseBody);
+
+                if (serverStatus != null)
                 {
-                    txtStatus.Content = "ONLINE: " + serverStatus.onlineCount;
-                    txtStatus.Foreground = new SolidColorBrush(Colors.ForestGreen);
-                }
-                else
-                {
-                    txtStatus.Content = "OFFLINE";
-                    txtStatus.Foreground = new SolidColorBrush(Colors.DarkRed);
+                    if (serverStatus.ok)
+                    {
+                        txtStatus.Content = "ONLINE: " + serverStatus.onlineCount;
+                        txtStatus.Foreground = new SolidColorBrush(Colors.ForestGreen);
+                    }
+                    else
+                    {
+                        txtStatus.Content = "OFFLINE";
+                        txtStatus.Foreground = new SolidColorBrush(Colors.DarkRed);
+                    }
                 }
             }
-
+            catch(Exception)
+            {
+                txtStatus.Content = "ERROR DE RED";
+                txtStatus.Foreground = new SolidColorBrush(Colors.Yellow);
+            }
         }
 
         private void getChangelog()
         {
-            string Url = Networking.ROOT_PATH + "changelog.txt";
-            var webRequest = WebRequest.Create(Url);
-            var responseStream = webRequest.GetResponse().GetResponseStream();
-
-            using var streamReader = new StreamReader(responseStream);
-            // Return next available character or -1 if there are no characters to be read
-            while (streamReader.Peek() > -1)
+            try
             {
-                txtChangelog.Text += streamReader.ReadLine() + "\n";
+                string Url = Networking.ROOT_PATH + "changelog.txt";
+                var webRequest = WebRequest.Create(Url);
+                webRequest.Timeout = 10000;
+                var responseStream = webRequest.GetResponse().GetResponseStream();
+
+                using var streamReader = new StreamReader(responseStream);
+                // Return next available character or -1 if there are no characters to be read
+                while (streamReader.Peek() > -1)
+                {
+                    txtChangelog.Text += streamReader.ReadLine() + "\n";
+                }
+            }
+            catch (Exception)
+            {
+                txtChangelog.Text = "* Error de conexión al obtener el changelog *";
             }
         }
        
