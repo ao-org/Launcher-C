@@ -164,7 +164,7 @@ namespace Launcher
 
         private void getChangelog()
         {
-            string Url = "http://autoupdate.ao20.com.ar/changelog.txt";
+            string Url = Networking.ROOT_PATH + "changelog.txt";
             var webRequest = WebRequest.Create(Url);
             var responseStream = webRequest.GetResponse().GetResponseStream();
 
