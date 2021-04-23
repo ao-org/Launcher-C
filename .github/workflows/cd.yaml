@@ -29,7 +29,7 @@ jobs:
           release_name="Launcher"
           
           # Build everything
-          dotnet publish Launcher.csproj --framework netcoreapp3.1 --runtime "win-x86" -c Release -o "$release_name"
+          dotnet publish -c Release -r win-x86 -o "$release_name" --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:PublishTrimmed=true
           
           # Pack to .zip for Windows
           7z a -mx9 -mmt4 -tzip "${release_name}.zip" "./${release_name}"
