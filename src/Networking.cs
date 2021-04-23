@@ -10,7 +10,7 @@ namespace Launcher.src
 {
     class Networking
     {
-        public static string ROOT_PATH = "https://d2r76n6n562nxd.cloudfront.net/";
+        public static string ROOT_PATH = "https://parches.ao20.com.ar/files/";
         private readonly string VERSION_PATH = ROOT_PATH + "Version.json";
         public static string API_PATH = "https://api.ao20.com.ar/";
         private readonly List<string> EXCEPCIONES = new List<string>() {

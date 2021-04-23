@@ -37,7 +37,7 @@ namespace Launcher
 
             if(BuscarActualizaciones() == -1)
             {
-                 MessageBoxResult result = MessageBox.Show("Esta versión del launcher es obsoleta, ¿Desea descargar la ultima versión?", "Versión desactualizada", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                MessageBoxResult result = MessageBox.Show("Esta versión del launcher es obsoleta, ¿Desea descargar la ultima versión?", "Versión desactualizada", MessageBoxButton.YesNo, MessageBoxImage.Information);
                 if (result == MessageBoxResult.Yes)
                 {
                     var uri = "https://ao20.com.ar";
@@ -83,7 +83,7 @@ namespace Launcher
             }
             else
             {
-                //si la función devuelve un 0 quiere decir que hay que actualizar el launcher.
+                //si la función devuelve un -1 quiere decir que hay que actualizar el launcher.
                 return -1;
             }
             
