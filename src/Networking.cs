@@ -65,12 +65,10 @@ namespace Launcher.src
             }
 
             //El archivo posicion 0 en el Version.JSON debe ser el launcher para comparar si está actualizado.
-#if !DEBUG
-                if (dllHashConverted.ToUpper() != versionRemota.Manifest.LauncherVersion)
-                {
-                    return null;
-                }
-#endif
+            if (dllHashConverted.ToUpper() != versionRemota.Manifest.LauncherVersion.ToUpper())
+            {
+                return null;
+            }
 
             // Itero la lista de archivos del servidor y lo comparo con lo que tengo en local.
             foreach (string filename in versionRemota.Files.Keys)
