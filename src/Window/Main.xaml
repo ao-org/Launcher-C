@@ -8,6 +8,7 @@
         Background="Transparent" 
         WindowStartupLocation="CenterScreen"
         Height="479" 
+        ContentRendered="Window_ContentRendered_1"
         Width="493">
 
     <Window.Resources>

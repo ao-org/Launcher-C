@@ -19,20 +19,21 @@ namespace Launcher
 		// Todos los archivos del cliente en la subcarpeta Argentum20, para no mezclarlos con los archivos del Launcher.
         public static string ARGENTUM_PATH = Directory.GetCurrentDirectory() + "\\..\\";
 
-        protected override void OnStartup(StartupEventArgs e)
-		{
+        void App_Startup(object sender, StartupEventArgs e)
+        {
             // Chequeo que solo haya 1 instancia de la aplicacion.
             _mutex = new Mutex(true, "LauncherAO20", out bool singleInstance);
-			if (!singleInstance)
-			{
-				// ya hay una instancia de esta aplicación, cerramos la nueva.
-				MessageBox.Show("Ya hay una instancia de esta aplicación abierta");
-				Environment.Exit(0);
-			}
-			
-            // Continuamos.
-			base.OnStartup(e);
-		}
+            if (!singleInstance)
+            {
+                // ya hay una instancia de esta aplicación, cerramos la nueva.
+                MessageBox.Show("Ya hay una instancia de esta aplicación abierta");
+                Environment.Exit(0);
+            }
+            // Create main application window, starting minimized if specified
+            Main mainWindow = new Main(e.Args.Length > 0);
+
+            mainWindow.Show();
+        }
 
         protected override void OnExit(ExitEventArgs e)
         {

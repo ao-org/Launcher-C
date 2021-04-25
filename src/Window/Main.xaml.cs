@@ -23,44 +23,48 @@ namespace Launcher
     {
         private readonly IO local = new IO();
         private readonly Networking networking = new Networking();
-
+        private bool HAVE_ARGS;
         [DllImport("kernel32")]
         static extern long WritePrivateProfileString(string Section, string Key, string Value, string FilePath);
-
+        
         /**
          * Constructor
          */
-        public Main()
+        public Main(bool withArgs)
         {
             // Inicializamos los componentes de este formulario.
             InitializeComponent();
-
-            if(BuscarActualizaciones() == -1)
+            HAVE_ARGS = withArgs;
+        }
+        private void Window_ContentRendered_1(object sender, EventArgs e)
+        {
+            try
             {
-                MessageBoxResult result = MessageBox.Show("Esta versión del launcher es obsoleta, ¿Desea descargar la ultima versión?", "Versión desactualizada", MessageBoxButton.YesNo, MessageBoxImage.Information);
-                if (result == MessageBoxResult.Yes)
+                getServerStatus();
+                getChangelog();
+                checkConfiguracion();
+
+                if(BuscarActualizaciones() > 0 && HAVE_ARGS)
                 {
-                    var uri = "https://ao20.com.ar";
-                    var psi = new System.Diagnostics.ProcessStartInfo();
-                    psi.UseShellExecute = true;
-                    psi.FileName = uri;
-                    System.Diagnostics.Process.Start(psi);
+                    chkLanzarAutomatico.IsChecked = true;
+                    startUpdate();
                 }
-                this.Close();
+
+                if (chkLanzarAutomatico.Visibility == Visibility.Visible)
+                {
+                    var parser = new FileIniDataParser();
+                    IniData file = parser.ReadFile(Configuracion.CONFIG_FILE);
+
+                    chkLanzarAutomatico.IsChecked = Convert.ToBoolean(Convert.ToInt32(file["OPCIONES"]["LanzarAutomatico"]));
+                }
             }
-
-            getServerStatus();
-            getChangelog();
-            checkConfiguracion();
-
-            if (chkLanzarAutomatico.Visibility == Visibility.Visible)
+            catch (Exception ex)
             {
-                var parser = new FileIniDataParser();
-                IniData file = parser.ReadFile(Configuracion.CONFIG_FILE);
-
-                chkLanzarAutomatico.IsChecked = Convert.ToBoolean(Convert.ToInt32(file["OPCIONES"]["LanzarAutomatico"]));
+                MessageBox.Show(ex.Message);
             }
         }
+
+
 
         private void checkConfiguracion()
         {
@@ -80,11 +84,6 @@ namespace Launcher
             if (networking.CheckOutdatedFiles() != null)
             {
                 local.ArchivosDesactualizados = networking.CheckOutdatedFiles().Count;
-            }
-            else
-            {
-                //si la función devuelve un -1 quiere decir que hay que actualizar el launcher.
-                return -1;
             }
             
             // Comprobamos la version actual del cliente
@@ -174,7 +173,7 @@ namespace Launcher
         {
             try
             {
-                string Url = Networking.ROOT_PATH + "changelog.txt";
+                string Url = Networking.ROOT_HOST_PATH + "changelog.txt";
                 var webRequest = WebRequest.Create(Url);
                 webRequest.Timeout = 10000;
                 var responseStream = webRequest.GetResponse().GetResponseStream();
@@ -209,9 +208,6 @@ namespace Launcher
             }
             else
             {
-                // Actualizo el VersionInfo.json
-                IO.SaveLatestVersionInfo(networking.versionRemotaString);
-
                 // Actualizo el label.
                 lblDow.Content = "¡Actualización Completada!";
                 lblDow.HorizontalContentAlignment = HorizontalAlignment.Center;
@@ -284,13 +280,7 @@ namespace Launcher
             Environment.Exit(0);
         }
 
-        /**
-         * Boton 'Jugar'
-         * 
-         * Si el cliente esta ACTUALIZADO y existe el ejecutable del cliente, lo abrimos.
-         * Si el cliente NO esta ACTUALIZADO, descargamos e instalamos las actualizaciones.
-         */
-        private void btnJugar_Click(object sender, RoutedEventArgs e)
+        private void startUpdate()
         {
             // Si estamos actualizando el cliente no lo dejo clickear este boton.
             if (local.Actualizando == true) return;
@@ -304,6 +294,17 @@ namespace Launcher
 
             // Abrimos el cliente.
             AbrirJuego();
+        }
+
+        /**
+         * Boton 'Jugar'
+         * 
+         * Si el cliente esta ACTUALIZADO y existe el ejecutable del cliente, lo abrimos.
+         * Si el cliente NO esta ACTUALIZADO, descargamos e instalamos las actualizaciones.
+         */
+        private void btnJugar_Click(object sender, RoutedEventArgs e)
+        {
+            startUpdate();
         }
 
         /**
@@ -378,6 +379,11 @@ namespace Launcher
         private void chkLanzarAutomatico_Click(object sender, RoutedEventArgs e)
         {
             WritePrivateProfileString("OPCIONES", "LanzarAutomatico", Convert.ToInt32(chkLanzarAutomatico.IsChecked).ToString(), Configuracion.CONFIG_FILE);
+        }
+
+        private void Window_ContentRendered(object sender, EventArgs e)
+        {
+
         }
     }
     public class ServerStatus

@@ -10,8 +10,8 @@ namespace Launcher.src
 {
     class Networking
     {
-        public static string ROOT_PATH = "https://parches.ao20.com.ar/files/";
-        private readonly string VERSION_PATH = ROOT_PATH + "Version.json";
+        public static string ROOT_HOST_PATH = "https://parches.ao20.com.ar/files/";
+        private readonly string VERSION_JSON_PATH = ROOT_HOST_PATH + "Version.json";
         public static string API_PATH = "https://api.ao20.com.ar/";
         private readonly List<string> EXCEPCIONES = new List<string>() {
             "Argentum20\\Recursos\\OUTPUT\\Configuracion.ini",
@@ -36,40 +36,6 @@ namespace Launcher.src
             // Obtenemos los datos necesarios del servidor.
             VersionInformation versionRemota = Get_RemoteVersion();
 
-            // Si no existe VersionInfo.json en la carpeta Init, ...
-            VersionInformation versionLocal;
-
-            byte[] dllHash;
-            string dllHashConverted;
-
-            //Me traigo el  MD5 de la dll del launcher
-            using (var md5 = System.Security.Cryptography.MD5.Create())
-            {
-                using (var stream = File.OpenRead(Directory.GetCurrentDirectory() + "/" + App.ExecutableName + ".dll"))
-                {                    
-                    dllHash = md5.ComputeHash(stream);
-                    dllHashConverted = BitConverter.ToString(dllHash).Replace("-", "").ToLower();
-                }
-            }
-
-            if (!File.Exists(IO.VERSIONFILE_PATH))
-            {
-                // ... parseamos el string que obtuvimos del servidor.
-                
-                versionLocal = IO.Get_LocalVersion(versionRemotaString);
-            }
-            else // Si existe, ...
-            {
-                // ... buscamos y parseamos el que está en la carpeta Init.
-                versionLocal = IO.Get_LocalVersion(null);
-            }
-
-            //El archivo posicion 0 en el Version.JSON debe ser el launcher para comparar si está actualizado.
-            if (dllHashConverted.ToUpper() != versionRemota.Manifest.LauncherVersion.ToUpper())
-            {
-                return null;
-            }
-
             // Itero la lista de archivos del servidor y lo comparo con lo que tengo en local.
             foreach (string filename in versionRemota.Files.Keys)
             {
@@ -79,13 +45,12 @@ namespace Launcher.src
                     // Si NO coinciden los hashes, ...
                     if (!EXCEPCIONES.Contains(filename))
                     {
-                        if (IO.checkMD5(filename) != versionRemota.Files[filename])
+                        if (IO.checkMD5(App.ARGENTUM_PATH + filename) != versionRemota.Files[filename])
                         {
                             // ... lo agrego a la lista de archivos a descargar.
                             fileQueue.Add(filename);
                         }
                     }
-
                 }
                 else // Si no existe el archivo ...
                 {
@@ -96,7 +61,6 @@ namespace Launcher.src
 
             // Guardo en un field el objeto de-serializado de la info. remota.
             this.versionRemota = versionRemota;
-
             return fileQueue;
         }
 
@@ -109,7 +73,7 @@ namespace Launcher.src
             try
             {
                 // Envio un GET al servidor con el JSON de el archivo de versionado.
-                versionRemotaString = webClient.DownloadString(VERSION_PATH);
+                versionRemotaString = webClient.DownloadString(VERSION_JSON_PATH);
                 
                 // Me fijo que la response NO ESTÉ vacía.
                 if (versionRemotaString == null)
@@ -163,7 +127,7 @@ namespace Launcher.src
             foreach (string file in fileQueue)
             {
                 downloadQueue = new TaskCompletionSource<bool>();
-                uriDescarga = new Uri(ROOT_PATH + file);
+                uriDescarga = new Uri(ROOT_HOST_PATH + file);
                 webClient.DownloadFileAsync(uriDescarga, App.ARGENTUM_PATH + file);
 
                 await downloadQueue.Task;
