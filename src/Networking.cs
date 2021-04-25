@@ -10,7 +10,7 @@ namespace Launcher.src
 {
     class Networking
     {
-        public static string ROOT_HOST_PATH = "https://parches.ao20.com.ar/files/";
+        public static string ROOT_HOST_PATH = "https://parches.ao20.com.ar/filesTest/";
         private readonly string VERSION_JSON_PATH = ROOT_HOST_PATH + "Version.json";
         public static string API_PATH = "https://api.ao20.com.ar/";
         private readonly List<string> EXCEPCIONES = new List<string>() {
@@ -45,10 +45,27 @@ namespace Launcher.src
                     // Si NO coinciden los hashes, ...
                     if (!EXCEPCIONES.Contains(filename))
                     {
-                        if (IO.checkMD5(App.ARGENTUM_PATH + filename) != versionRemota.Files[filename])
+                        if (IO.checkMD5(App.ARGENTUM_PATH + filename).ToLower() != versionRemota.Files[filename].ToLower())
                         {
                             // ... lo agrego a la lista de archivos a descargar.
-                            fileQueue.Add(filename);
+                            // Launcher\\LauncherAO20.exe
+                            if (filename.Contains("LauncherAO20.ex")) {
+                                if (filename.Contains("LauncherAO20.exe"))
+                                {
+                                    fileQueue.Add("Launcher\\LauncherAO20.ex_");
+                                }
+                            }
+                            else if (filename.Contains("LauncherAO20.dl"))
+                            {
+                                if (filename.Contains("LauncherAO20.dll"))
+                                {
+                                    fileQueue.Add("Launcher\\LauncherAO20.dl_");
+                                }
+                            }
+                            else
+                            {
+                                fileQueue.Add(filename);
+                            }
                         }
                     }
                 }

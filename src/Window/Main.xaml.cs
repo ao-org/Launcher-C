@@ -43,12 +43,8 @@ namespace Launcher
                 getServerStatus();
                 getChangelog();
                 checkConfiguracion();
-
-                if(BuscarActualizaciones() > 0 && HAVE_ARGS)
-                {
-                    chkLanzarAutomatico.IsChecked = true;
-                    startUpdate();
-                }
+                BuscarActualizaciones();
+                
 
                 if (chkLanzarAutomatico.Visibility == Visibility.Visible)
                 {
