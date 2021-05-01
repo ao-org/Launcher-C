@@ -10,7 +10,7 @@ namespace Launcher.src
 {
     class Networking
     {
-        public static string ROOT_HOST_PATH = "https://parches.ao20.com.ar/filesTest/";
+        public static string ROOT_HOST_PATH = "https://parches.ao20.com.ar/files/";
         private readonly string VERSION_JSON_PATH = ROOT_HOST_PATH + "Version.json";
         public static string API_PATH = "https://api.ao20.com.ar/";
         private readonly List<string> EXCEPCIONES = new List<string>() {
@@ -30,55 +30,66 @@ namespace Launcher.src
          */
         public List<string> CheckOutdatedFiles()
         {
-
-            fileQueue.Clear();
-
-            // Obtenemos los datos necesarios del servidor.
-            VersionInformation versionRemota = Get_RemoteVersion();
-
-            // Itero la lista de archivos del servidor y lo comparo con lo que tengo en local.
-            foreach (string filename in versionRemota.Files.Keys)
+            try
             {
-                // Si existe el archivo, comparamos el MD5..
-                if (File.Exists(App.ARGENTUM_PATH + filename))
+                fileQueue.Clear();
+
+                // Obtenemos los datos necesarios del servidor.
+                VersionInformation versionRemota = Get_RemoteVersion();
+
+                if (versionRemota == null) versionRemota = new VersionInformation();
+                // Itero la lista de archivos del servidor y lo comparo con lo que tengo en local.
+                foreach (string filename in versionRemota.Files.Keys)
                 {
-                    // Si NO coinciden los hashes, ...
-                    if (!EXCEPCIONES.Contains(filename))
+                    // Si existe el archivo, comparamos el MD5..
+                    if (filename.Contains("LauncherAO20.dl_") || filename.Contains("LauncherAO20.ex_") || File.Exists(App.ARGENTUM_PATH + filename))
                     {
-                        if (IO.checkMD5(App.ARGENTUM_PATH + filename).ToLower() != versionRemota.Files[filename].ToLower())
+                        // Si NO coinciden los hashes, ...
+                        if (!EXCEPCIONES.Contains(filename))
                         {
-                            // ... lo agrego a la lista de archivos a descargar.
-                            // Launcher\\LauncherAO20.exe
-                            if (filename.Contains("LauncherAO20.ex")) {
-                                if (filename.Contains("LauncherAO20.exe"))
-                                {
-                                    fileQueue.Add("Launcher\\LauncherAO20.ex_");
-                                }
-                            }
-                            else if (filename.Contains("LauncherAO20.dl"))
+                            if (filename.Contains("LauncherAO20.dl_"))
                             {
-                                if (filename.Contains("LauncherAO20.dll"))
+#if DEBUG
+                                if (IO.checkMD5(App.ARGENTUM_PATH + "netcoreapp3.1\\LauncherAO20.dll").ToLower() != versionRemota.Files["Launcher\\LauncherAO20.dl_"].ToLower())
                                 {
-                                    fileQueue.Add("Launcher\\LauncherAO20.dl_");
+                                    fileQueue.Add(filename);
+                                    fileQueue.Add("netcoreapp3.1\\LauncherAO20.ex_");
                                 }
+#endif
+#if !DEBUG
+                            if (IO.checkMD5(App.ARGENTUM_PATH + "Launcher\\LauncherAO20.dll").ToLower() != versionRemota.Files["Launcher\\LauncherAO20.dl_"].ToLower())
+                            {
+                                fileQueue.Add(filename);
+                                fileQueue.Add("Launcher\\LauncherAO20.ex_");
                             }
-                            else
+#endif
+                            }
+                            else if (filename.Contains("LauncherAO20.ex_"))
+                            {
+
+                            }
+                            else if (IO.checkMD5(App.ARGENTUM_PATH + filename).ToLower() != versionRemota.Files[filename].ToLower())
                             {
                                 fileQueue.Add(filename);
                             }
                         }
                     }
+                    else // Si no existe el archivo ...
+                    {
+                        // ... lo agrego a la lista de archivos a descargar.
+                        fileQueue.Add(filename);
+                    }
                 }
-                else // Si no existe el archivo ...
-                {
-                    // ... lo agrego a la lista de archivos a descargar.
-                    fileQueue.Add(filename);
-                }
-            }
 
-            // Guardo en un field el objeto de-serializado de la info. remota.
-            this.versionRemota = versionRemota;
-            return fileQueue;
+                // Guardo en un field el objeto de-serializado de la info. remota.
+                this.versionRemota = versionRemota;
+                return fileQueue;
+            }
+            catch (Exception)
+            {
+                return new List<string>();
+            }
+           
         }
 
 
@@ -104,7 +115,10 @@ namespace Launcher.src
             }
             catch (WebException error)
             {
-                MessageBox.Show(error.Message);
+                if(error.Status == WebExceptionStatus.ProtocolError)
+                {
+                    MessageBox.Show("No se pudo actualizar el launcher, intente más tarde");
+                }
             }
             catch (JsonException)
             {

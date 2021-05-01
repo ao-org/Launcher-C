@@ -38,13 +38,10 @@ namespace Launcher
         }
         private void Window_ContentRendered_1(object sender, EventArgs e)
         {
-            try
-            {
                 getServerStatus();
                 getChangelog();
                 checkConfiguracion();
                 BuscarActualizaciones();
-                
 
                 if (chkLanzarAutomatico.Visibility == Visibility.Visible)
                 {
@@ -53,11 +50,6 @@ namespace Launcher
 
                     chkLanzarAutomatico.IsChecked = Convert.ToBoolean(Convert.ToInt32(file["OPCIONES"]["LanzarAutomatico"]));
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
         }
 
 
@@ -77,10 +69,7 @@ namespace Launcher
 
         private int BuscarActualizaciones()
         {
-            if (networking.CheckOutdatedFiles() != null)
-            {
-                local.ArchivosDesactualizados = networking.CheckOutdatedFiles().Count;
-            }
+            local.ArchivosDesactualizados = networking.CheckOutdatedFiles().Count;
             
             // Comprobamos la version actual del cliente
             if (local.ArchivosDesactualizados == 0)
@@ -111,8 +100,7 @@ namespace Launcher
                 local.Actualizando = true;
 
                 // Anunciamos el numero de archivo que estamos descargando
-                lblDow.Content = "Descargando " + networking.fileQueue[local.ArchivoActual] + ". Archivo " + (local.ArchivoActual + 1) + " de " + networking.fileQueue.Count;
-                lblDow.HorizontalContentAlignment = HorizontalAlignment.Left;
+                lblDow.Content = "Descargando archivo " + (local.ArchivoActual + 1) + " de " + networking.fileQueue.Count;
                 lblDow.Foreground = new SolidColorBrush(Colors.White);
 
                 // Comenzamos la descarga
@@ -197,8 +185,7 @@ namespace Launcher
             // Si quedan, actualizamos el label.
             if (local.ArchivoActual < networking.fileQueue.Count)
             {
-                lblDow.Content = "Descargando " + networking.fileQueue[local.ArchivoActual] + ". Archivo " + (local.ArchivoActual + 1) + " de " + networking.fileQueue.Count;
-                lblDow.HorizontalContentAlignment = HorizontalAlignment.Left;
+                lblDow.Content = "Descargando archivo " + (local.ArchivoActual + 1) + " de " + networking.fileQueue.Count;
                 grdPbarLlena.Width = (416 * local.ArchivoActual) / networking.fileQueue.Count;
                 grdPbarLlena.Visibility = Visibility.Visible;
             }
