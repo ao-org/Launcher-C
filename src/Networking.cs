@@ -10,8 +10,10 @@ namespace Launcher.src
 {
     class Networking
     {
-        public static string ROOT_HOST_PATH = "https://parches.ao20.com.ar/files/";
+        public static string ROOT_HOST_PATH = "https://parches.ao20.com.ar/files-test/";
         private readonly string VERSION_JSON_PATH = ROOT_HOST_PATH + "Version.json";
+
+
         public static string API_PATH = "https://api.ao20.com.ar/";
         private readonly List<string> EXCEPCIONES = new List<string>() {
             "Argentum20\\Recursos\\OUTPUT\\Configuracion.ini",
