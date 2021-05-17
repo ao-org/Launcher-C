@@ -157,7 +157,7 @@ namespace Launcher
         {
             try
             {
-                string Url = Networking.ROOT_HOST_PATH + "changelog.txt";
+                string Url = Networking.ROOT_HOST_PATH + "/changelog.txt";
                 var webRequest = WebRequest.Create(Url);
                 webRequest.Timeout = 10000;
                 var responseStream = webRequest.GetResponse().GetResponseStream();
@@ -215,8 +215,9 @@ namespace Launcher
         }
 
         private static void AbrirJuego()
-        {
-            string gameExecutable = App.ARGENTUM_PATH + "Argentum20\\Cliente\\Argentum.exe";
+        {   
+            // Hay que ponerle 2 Argentum20 por que sino hace cualquiera...
+            string gameExecutable = App.ARGENTUM_PATH + "Argentum20\\Argentum20\\Cliente\\Argentum.exe";
             if (File.Exists(gameExecutable))
             {
                 ProcessStartInfo startInfo = new ProcessStartInfo();

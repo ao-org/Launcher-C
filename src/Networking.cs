@@ -10,8 +10,8 @@ namespace Launcher.src
 {
     class Networking
     {
-        public static string ROOT_HOST_PATH = "https://parches.ao20.com.ar/files-test/";
-        private readonly string VERSION_JSON_PATH = ROOT_HOST_PATH + "Version.json";
+        public static string ROOT_HOST_PATH = "https://parches.ao20.com.ar/files-test";
+        private readonly string VERSION_JSON_PATH = ROOT_HOST_PATH + "/Version.json";
 
 
         public static string API_PATH = "https://api.ao20.com.ar/";
@@ -138,7 +138,7 @@ namespace Launcher.src
         {
             foreach(string folder in versionRemota.Folders)
             {
-                string currentFolder = App.ARGENTUM_PATH + "\\" + folder;
+                string currentFolder = App.ARGENTUM_PATH + folder;
 
                 if (!Directory.Exists(currentFolder))
                 {
@@ -161,7 +161,10 @@ namespace Launcher.src
             {
                 downloadQueue = new TaskCompletionSource<bool>();
                 uriDescarga = new Uri(ROOT_HOST_PATH + file);
-                webClient.DownloadFileAsync(uriDescarga, App.ARGENTUM_PATH + file);
+                
+                //Hay que hacer el replace por que sino viene con \\\\
+                var filePath = App.ARGENTUM_PATH + file;
+                webClient.DownloadFileAsync(uriDescarga, filePath.Replace("\\\\", "\\"));
 
                 await downloadQueue.Task;
             }
