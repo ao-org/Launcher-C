@@ -29,7 +29,6 @@ namespace Launcher
                 MessageBox.Show("Ya hay una instancia de esta aplicación abierta");
                 Environment.Exit(0);
             }
-            MessageBox.Show(ARGENTUM_PATH+ "ANTES");
             // Create main application window, starting minimized if specified
             if (ARGENTUM_PATH.Contains("Launcher"))
             {
@@ -43,7 +42,6 @@ namespace Launcher
             {
                 ARGENTUM_PATH = ARGENTUM_PATH.Split("netcoreapp3.1")[0];
             }
-            MessageBox.Show(ARGENTUM_PATH);
             Main mainWindow = new Main();
 
             mainWindow.Show();
