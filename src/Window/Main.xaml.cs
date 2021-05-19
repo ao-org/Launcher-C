@@ -214,8 +214,7 @@ namespace Launcher
 
         private static void AbrirJuego()
         {
-            string gameExecutable = App.ARGENTUM_PATH + "Argentum20\\Cliente\\Argentum.exe";
-            MessageBox.Show(gameExecutable);
+            string gameExecutable = App.ARGENTUM_PATH + "\\Argentum20\\Cliente\\Argentum.exe";
             if (File.Exists(gameExecutable))
             {
                 ProcessStartInfo startInfo = new ProcessStartInfo();
