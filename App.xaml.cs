@@ -15,9 +15,9 @@ namespace Launcher
 
         // Para prevenir múltiples ejecuciones de esta aplicación.
         private static Mutex _mutex = null;
-		
-		// Todos los archivos del cliente en la subcarpeta Argentum20, para no mezclarlos con los archivos del Launcher.
-        public static string ARGENTUM_PATH = Directory.GetCurrentDirectory() + "\\..\\";
+
+        // Todos los archivos del cliente en la subcarpeta Argentum20, para no mezclarlos con los archivos del Launcher.
+        public static string ARGENTUM_PATH;
 
         void App_Startup(object sender, StartupEventArgs e)
         {
@@ -30,7 +30,15 @@ namespace Launcher
                 Environment.Exit(0);
             }
             // Create main application window, starting minimized if specified
-            Main mainWindow = new Main(e.Args.Length > 0);
+            if (e.Args.Length > 0)
+            {
+                ARGENTUM_PATH = Directory.GetCurrentDirectory() + "\\..\\..\\";
+            }
+            else
+            {
+                ARGENTUM_PATH = Directory.GetCurrentDirectory() + "\\..\\";
+            }
+            Main mainWindow = new Main();
 
             mainWindow.Show();
         }

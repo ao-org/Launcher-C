@@ -23,33 +23,31 @@ namespace Launcher
     {
         private readonly IO local = new IO();
         private readonly Networking networking = new Networking();
-        private bool HAVE_ARGS;
         [DllImport("kernel32")]
         static extern long WritePrivateProfileString(string Section, string Key, string Value, string FilePath);
         
         /**
          * Constructor
          */
-        public Main(bool withArgs)
+        public Main()
         {
             // Inicializamos los componentes de este formulario.
             InitializeComponent();
-            HAVE_ARGS = withArgs;
         }
         private void Window_ContentRendered_1(object sender, EventArgs e)
         {
-                getServerStatus();
-                getChangelog();
-                checkConfiguracion();
-                BuscarActualizaciones();
+            getServerStatus();
+            getChangelog();
+            checkConfiguracion();
+            BuscarActualizaciones();
 
-                if (chkLanzarAutomatico.Visibility == Visibility.Visible)
-                {
-                    var parser = new FileIniDataParser();
-                    IniData file = parser.ReadFile(Configuracion.CONFIG_FILE);
+            if (chkLanzarAutomatico.Visibility == Visibility.Visible)
+            {
+                var parser = new FileIniDataParser();
+                IniData file = parser.ReadFile(Configuracion.CONFIG_FILE);
 
-                    chkLanzarAutomatico.IsChecked = Convert.ToBoolean(Convert.ToInt32(file["OPCIONES"]["LanzarAutomatico"]));
-                }
+                chkLanzarAutomatico.IsChecked = Convert.ToBoolean(Convert.ToInt32(file["OPCIONES"]["LanzarAutomatico"]));
+            }
         }
 
 
@@ -217,6 +215,7 @@ namespace Launcher
         private static void AbrirJuego()
         {
             string gameExecutable = App.ARGENTUM_PATH + "Argentum20\\Cliente\\Argentum.exe";
+            MessageBox.Show(gameExecutable);
             if (File.Exists(gameExecutable))
             {
                 ProcessStartInfo startInfo = new ProcessStartInfo();
