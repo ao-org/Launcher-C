@@ -33,12 +33,17 @@ namespace Launcher
             if (ARGENTUM_PATH.Contains("Launcher/"))
             {
                 ARGENTUM_PATH = ARGENTUM_PATH.Split("Launcher/")[0];
+                ARGENTUM_PATH = ARGENTUM_PATH + "\\";
             }
             else if (ARGENTUM_PATH.Contains("Argentum20/"))
             {
                 ARGENTUM_PATH = ARGENTUM_PATH.Split("Argentum20/")[0];
+                ARGENTUM_PATH = ARGENTUM_PATH + "\\";
             }
-
+            else if (ARGENTUM_PATH.Contains("netcoreapp3.1"))
+            {
+                ARGENTUM_PATH = ARGENTUM_PATH.Split("netcoreapp3.1")[0];
+            }
             Main mainWindow = new Main();
 
             mainWindow.Show();
