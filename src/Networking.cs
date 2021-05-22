@@ -10,7 +10,7 @@ namespace Launcher.src
 {
     class Networking
     {
-        public static string ROOT_HOST_PATH = "https://parches.ao20.com.ar/files-test/";
+        public static string ROOT_HOST_PATH = "https://parches.ao20.com.ar/files/";
         private readonly string VERSION_JSON_PATH = ROOT_HOST_PATH + "Version.json";
 
 
