@@ -269,6 +269,17 @@ namespace Launcher
             // Si hay archivos desactualizados, primero los actualizamos.
             if (local.ArchivosDesactualizados > 0)
             {
+                // Cerramos el proceso del juego
+                Process[] runingProcess = Process.GetProcesses();
+                for (int i = 0; i < runingProcess.Length; i++)
+                {
+                    if (runingProcess[i].ProcessName == "Argentum")
+                    {
+                        runingProcess[i].Kill();
+                    }
+
+                }
+
                 Actualizar();
                 return;
             }
