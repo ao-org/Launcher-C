@@ -62,6 +62,8 @@ namespace Launcher
         private async void BuscarActualizaciones()
         {
             local.ArchivosDesactualizados = (await networking.CheckOutdatedFiles()).Count;
+
+            btnJugar.IsEnabled = true;
             
             // Comprobamos la version actual del cliente
             if (local.ArchivosDesactualizados == 0)

@@ -64,7 +64,7 @@
 						x:Name="btnJugar" 
 						Height="39"    
                         Width="161"
-                        Margin="166,355,166,85">
+                        Margin="166,355,166,85" IsEnabled="False">
 
                 <Button.Background>
                     <ImageBrush Stretch="Uniform" ImageSource="../../assets/img/boton-comenzar-es-default.png"/>
@@ -167,7 +167,7 @@
                 x:Name="btnConfiguracion" 
                 Height="28"    
                 Width="132"
-                Margin="322,229,10,211" Click="btnConfiguracion_Click">
+                Margin="322,229,10,211" Click="btnConfiguracion_Click" IsEnabled="False">
                 <Button.Background>
                     <ImageBrush Stretch="Uniform" ImageSource="../../assets/img/boton-configuracion-es-default.png"/>
                 </Button.Background>
