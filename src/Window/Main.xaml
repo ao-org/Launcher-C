@@ -58,7 +58,7 @@
                     <TranslateTransform/>
                 </TransformGroup>
             </Grid.RenderTransform>
-            <Label x:Name="txtStatus" Content="" Style="{StaticResource Cardo}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="334,171,0,0" Width="122" Foreground="#FF3EE83E" FontSize="14" FontWeight="ExtraBlack" HorizontalContentAlignment="Center" />
+            <Label x:Name="txtStatus" Content="Comprobando" Style="{StaticResource Cardo}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="334,171,0,0" Width="122" Foreground="Orange" FontSize="14" FontWeight="ExtraBlack" HorizontalContentAlignment="Center" />
 
             <Button Click="btnJugar_Click" 
 						x:Name="btnJugar" 
@@ -239,7 +239,7 @@
             </Button>
 
         </Grid>
-        <TextBox x:Name="txtChangelog" HorizontalAlignment="Left" TextWrapping="Wrap" Width="275" Margin="39,155,0,141" Background="{x:Null}" Foreground="White" BorderThickness="0" VerticalScrollBarVisibility="Auto" TextChanged="txtChangelog_TextChanged"/>
+        <TextBox x:Name="txtChangelog" HorizontalAlignment="Left" TextWrapping="Wrap" Width="275" Margin="39,155,0,141" Background="{x:Null}" Foreground="White" BorderThickness="0" VerticalScrollBarVisibility="Auto" TextChanged="txtChangelog_TextChanged" IsReadOnly="True" IsEnabled="False" Text="Cargando..." />
 
 
         <Image x:Name="pbVacia" HorizontalAlignment="Left" Height="39" Width="416" Margin="39,428,0,0" Source="../../assets/img/progress-bar-vacia.png" VerticalAlignment="Top" Grid.ColumnSpan="2" />
@@ -374,7 +374,7 @@
             </Button>
         </Grid>
         <Label x:Name="lblDow" 
-						Content="" 
+						Content="Buscando actualizaciones..." 
 						VerticalAlignment="Top"
                         Style="{StaticResource AlegreyaAO}"
                         HorizontalContentAlignment="Center"
@@ -382,6 +382,6 @@
 						Height="23"
 						Padding="0,2,0,0" 
 						Foreground="#C3C3C3" Width="411" FontWeight="Bold" FontSize="11"/>
-        <CheckBox x:Name="chkLanzarAutomatico" Content="Lanzar luego de actualizar"  Margin="170,404,32,39" Foreground="#8a8988" FontFamily="Alegreya Sans AO" FontWeight="Normal" Click="chkLanzarAutomatico_Click"/>
+        <CheckBox x:Name="chkLanzarAutomatico" Content="Lanzar luego de actualizar"  Margin="170,404,149,56" Foreground="#8a8988" FontFamily="Alegreya Sans AO" FontWeight="Normal" Click="chkLanzarAutomatico_Click"/>
     </Grid>
 </Window>

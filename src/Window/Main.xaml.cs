@@ -40,17 +40,7 @@ namespace Launcher
             getChangelog();
             checkConfiguracion();
             BuscarActualizaciones();
-
-            if (chkLanzarAutomatico.Visibility == Visibility.Visible)
-            {
-                var parser = new FileIniDataParser();
-                IniData file = parser.ReadFile(Configuracion.CONFIG_FILE);
-
-                chkLanzarAutomatico.IsChecked = Convert.ToBoolean(Convert.ToInt32(file["OPCIONES"]["LanzarAutomatico"]));
-            }
         }
-
-
 
         private void checkConfiguracion()
         {
@@ -61,13 +51,17 @@ namespace Launcher
             else
             {
                 btnConfiguracion.Visibility = Visibility.Visible;
-                chkLanzarAutomatico.Visibility = Visibility.Visible;
+
+                var parser = new FileIniDataParser();
+                IniData file = parser.ReadFile(Configuracion.CONFIG_FILE);
+
+                chkLanzarAutomatico.IsChecked = Convert.ToBoolean(Convert.ToInt32(file["OPCIONES"]["LanzarAutomatico"]));
             }
         }
 
-        private int BuscarActualizaciones()
+        private async void BuscarActualizaciones()
         {
-            local.ArchivosDesactualizados = networking.CheckOutdatedFiles().Count;
+            local.ArchivosDesactualizados = (await networking.CheckOutdatedFiles()).Count;
             
             // Comprobamos la version actual del cliente
             if (local.ArchivosDesactualizados == 0)
@@ -82,8 +76,6 @@ namespace Launcher
                 lblDow.HorizontalContentAlignment = HorizontalAlignment.Center;
                 lblDow.Foreground = new SolidColorBrush(Colors.Red);
             }
-
-            return local.ArchivosDesactualizados;
         }
 
         /**
@@ -151,20 +143,24 @@ namespace Launcher
             }
         }
 
-        private void getChangelog()
+        private async void getChangelog()
         {
             try
             {
                 string Url = Networking.ROOT_HOST_PATH + "changelog.txt";
                 var webRequest = WebRequest.Create(Url);
                 webRequest.Timeout = 10000;
-                var responseStream = webRequest.GetResponse().GetResponseStream();
+                var responseStream = (await webRequest.GetResponseAsync()).GetResponseStream();
 
                 using var streamReader = new StreamReader(responseStream);
+
+                txtChangelog.Text = "";
+                txtChangelog.IsEnabled = true;
+
                 // Return next available character or -1 if there are no characters to be read
                 while (streamReader.Peek() > -1)
                 {
-                    txtChangelog.Text += streamReader.ReadLine() + "\n";
+                    txtChangelog.Text += await streamReader.ReadLineAsync() + "\n";
                 }
             }
             catch (Exception)

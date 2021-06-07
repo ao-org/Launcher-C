@@ -30,14 +30,14 @@ namespace Launcher.src
         /**
          * Comprueba la ultima version disponible
          */
-        public List<string> CheckOutdatedFiles()
+        public async Task<List<string>> CheckOutdatedFiles()
         {
             try
             {
                 fileQueue.Clear();
 
                 // Obtenemos los datos necesarios del servidor.
-                VersionInformation versionRemota = Get_RemoteVersion();
+                VersionInformation versionRemota = await Get_RemoteVersion();
 
                 if (versionRemota == null) versionRemota = new VersionInformation();
                 // Itero la lista de archivos del servidor y lo comparo con lo que tengo en local.
@@ -94,17 +94,15 @@ namespace Launcher.src
            
         }
 
-
-
-        public VersionInformation Get_RemoteVersion()
+        public async Task<VersionInformation> Get_RemoteVersion()
         {
             WebClient webClient = new WebClient();
-            VersionInformation versionRemota = null;
+
             try
             {
                 // Envio un GET al servidor con el JSON de el archivo de versionado.
-                versionRemotaString = webClient.DownloadString(VERSION_JSON_PATH);
-                
+                versionRemotaString = await webClient.DownloadStringTaskAsync(VERSION_JSON_PATH);
+
                 // Me fijo que la response NO ESTÉ vacía.
                 if (versionRemotaString == null)
                 {
@@ -113,11 +111,11 @@ namespace Launcher.src
                 }
 
                 // Deserializamos el Version.json remoto
-                versionRemota = JsonSerializer.Deserialize<VersionInformation>(versionRemotaString);
+                return JsonSerializer.Deserialize<VersionInformation>(versionRemotaString);
             }
             catch (WebException error)
             {
-                if(error.Status == WebExceptionStatus.ProtocolError)
+                if (error.Status == WebExceptionStatus.ProtocolError)
                 {
                     MessageBox.Show("No se pudo actualizar el launcher, intente más tarde");
                 }
@@ -131,7 +129,7 @@ namespace Launcher.src
                 webClient.Dispose();
             }
 
-            return versionRemota;
+            return new VersionInformation();
         }
 
         public void CrearCarpetasRequeridas()
