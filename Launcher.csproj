@@ -28,5 +28,9 @@
     <Resource Include="assets\img\*.png" />
     <Resource Include="assets\fonts\*.ttf" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="src\Window\ventanalauncher.png" />
+  </ItemGroup>
   
 </Project>

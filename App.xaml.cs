@@ -30,15 +30,15 @@ namespace Launcher
                 Environment.Exit(0);
             }
             // Create main application window, starting minimized if specified
-            if (ARGENTUM_PATH.Contains("Launcher"))
+            if (ARGENTUM_PATH.Contains("\\Launcher"))
             {
                 ARGENTUM_PATH = ARGENTUM_PATH.Split("Launcher")[0];
             }
-            else if (ARGENTUM_PATH.Contains("Argentum20"))
+            else if (ARGENTUM_PATH.Contains("\\Argentum20"))
             {
                 ARGENTUM_PATH = ARGENTUM_PATH.Split("Argentum20")[0];
             }
-            else if (ARGENTUM_PATH.Contains("netcoreapp3.1"))
+            else if (ARGENTUM_PATH.Contains("\\netcoreapp3.1"))
             {
                 ARGENTUM_PATH = ARGENTUM_PATH.Split("netcoreapp3.1")[0];
             }

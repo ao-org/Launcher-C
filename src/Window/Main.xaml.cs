@@ -61,6 +61,8 @@ namespace Launcher
 
         private async void BuscarActualizaciones()
         {
+            loadingBar.Visibility = Visibility.Visible;
+
             local.ArchivosDesactualizados = (await networking.CheckOutdatedFiles()).Count;
 
             btnJugar.IsEnabled = true;
@@ -78,6 +80,8 @@ namespace Launcher
                 lblDow.HorizontalContentAlignment = HorizontalAlignment.Center;
                 lblDow.Foreground = new SolidColorBrush(Colors.Red);
             }
+
+            loadingBar.Visibility = Visibility.Hidden;
         }
 
         /**
@@ -90,6 +94,7 @@ namespace Launcher
             {
                 // Le indico al programa que estamos en medio de una actualización.
                 local.Actualizando = true;
+                loadingBar.Visibility = Visibility.Visible;
 
                 // Anunciamos el numero de archivo que estamos descargando
                 lblDow.Content = "Descargando archivo " + (local.ArchivoActual + 1) + " de " + networking.fileQueue.Count;
@@ -109,6 +114,7 @@ namespace Launcher
             
             WebClient client = new WebClient();
             client.DownloadFileCompleted += new AsyncCompletedEventHandler(UpdateDone);
+            client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(UpdateProgress);
             await networking.IniciarDescarga(client);
         }
 
@@ -116,6 +122,8 @@ namespace Launcher
         {
             try
             {
+                loadingBar.Visibility = Visibility.Visible;
+
                 HttpClient client = new HttpClient();
                 client.Timeout = TimeSpan.FromSeconds(5);
                 HttpResponseMessage response = await client.GetAsync(Networking.API_PATH);
@@ -142,6 +150,10 @@ namespace Launcher
             {
                 txtStatus.Content = "ERROR DE RED";
                 txtStatus.Foreground = new SolidColorBrush(Colors.Yellow);
+            }
+            finally
+            {
+                loadingBar.Visibility = Visibility.Hidden;
             }
         }
 
@@ -205,9 +217,15 @@ namespace Launcher
                 local.Actualizando = false;
                 local.ArchivoActual = 0;
                 local.ArchivosDesactualizados = 0;
+                loadingBar.Visibility = Visibility.Hidden;
 
                 grdPbarLlena.Width = 416;
             }
+        }
+
+        private void UpdateProgress(object sender, DownloadProgressChangedEventArgs e)
+        {
+            grdPbarLlena.Width = (local.ArchivoActual + e.ProgressPercentage / 100.0) * 416.0 / networking.fileQueue.Count;
         }
 
         private static void AbrirJuego()

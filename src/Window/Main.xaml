@@ -49,6 +49,9 @@
             <ImageBrush ImageSource="../../assets/img/ventanalauncher.png"/>
         </Grid.Background>
 
+        <TextBox x:Name="txtChangelog" HorizontalAlignment="Left" TextWrapping="Wrap" Width="275" Margin="39,155,0,141" Background="{x:Null}" Foreground="White" BorderThickness="0" VerticalScrollBarVisibility="Auto" TextChanged="txtChangelog_TextChanged" IsReadOnly="True" IsEnabled="False" Text="Cargando..." />
+
+
         <Grid Grid.ColumnSpan="2" RenderTransformOrigin="0.5,0.5">
             <Grid.RenderTransform>
                 <TransformGroup>
@@ -237,9 +240,9 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
+            <ProgressBar x:Name="loadingBar" IsIndeterminate="True" Margin="167,348,167,127" Background="#00FF0707" BorderBrush="#00BCBCBC" Foreground="#FF410F0F" LargeChange="20" Orientation="Horizontal" SmallChange="1" Visibility="Hidden" />
 
         </Grid>
-        <TextBox x:Name="txtChangelog" HorizontalAlignment="Left" TextWrapping="Wrap" Width="275" Margin="39,155,0,141" Background="{x:Null}" Foreground="White" BorderThickness="0" VerticalScrollBarVisibility="Auto" TextChanged="txtChangelog_TextChanged" IsReadOnly="True" IsEnabled="False" Text="Cargando..." />
 
 
         <Image x:Name="pbVacia" HorizontalAlignment="Left" Height="39" Width="416" Margin="39,428,0,0" Source="../../assets/img/progress-bar-vacia.png" VerticalAlignment="Top" Grid.ColumnSpan="2" />
