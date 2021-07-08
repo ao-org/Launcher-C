@@ -170,7 +170,7 @@
                 x:Name="btnConfiguracion" 
                 Height="28"    
                 Width="132"
-                Margin="322,229,10,211" Click="btnConfiguracion_Click" IsEnabled="False">
+                Margin="322,229,10,211" Click="btnConfiguracion_Click">
                 <Button.Background>
                     <ImageBrush Stretch="Uniform" ImageSource="../../assets/img/boton-configuracion-es-default.png"/>
                 </Button.Background>
