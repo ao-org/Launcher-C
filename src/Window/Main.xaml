@@ -1,6 +1,7 @@
-<Window x:Class="Launcher.Main" 
+<Window 
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+        xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av" x:Class="Launcher.Main" 
         WindowStyle="None" 
         Title="Launcher - A0 20"
         MouseDown="Window_MouseDown"
@@ -24,8 +25,8 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type CheckBox}">
                         <Grid>
-                            <Image x:Name="checkBoxImage" Source="../assets/img/checkbox-small-off.png"></Image>
-                            <Image x:Name="checkBoxUncheck" Source="../assets/img/checkbox-small-on.png"></Image>
+                            <Image x:Name="checkBoxImage" Source="../assets/img/checkbox-small-off.png"/>
+                            <Image x:Name="checkBoxUncheck" Source="../assets/img/checkbox-small-on.png"/>
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="True">
@@ -244,7 +245,8 @@
             <Button Click="btnJugarTest_Click" 
                 x:Name="btnJugarTest"
                 Margin="181,119,165,331" 
-                IsEnabled="True">
+                IsEnabled="False" 
+                Visibility="Hidden">
 
                 <Button.Background>
                     <ImageBrush Stretch="Uniform" ImageSource="/assets/img/boton-comenzar-es-default-test.png"/>
@@ -286,6 +288,8 @@
                 </Button.Template>
 
             </Button>
+
+            <Label MouseDoubleClick="txtTestClickerButton_Click" x:Name="txtTestClickerButton" Content="." Style="{StaticResource Cardo}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="21,19,0,0" Width="21" Foreground="Orange" FontSize="14" FontWeight="ExtraBlack" HorizontalContentAlignment="Center" Height="24" />
 
         </Grid>
 

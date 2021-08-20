@@ -21,6 +21,7 @@ namespace Launcher
 {
     public partial class Main : Window, IComponentConnector
     {
+        private int counterClickSeeTestButton = 0;
         private readonly IO local = new IO();
         private readonly Networking networking = new Networking();
         [DllImport("kernel32")]
@@ -255,6 +256,20 @@ namespace Launcher
             }
         }
 
+
+        /**
+        * Boton para ver el boton de descarga del boton de test
+        */
+        private void txtTestClickerButton_Click(object sender, RoutedEventArgs e)
+        {
+            counterClickSeeTestButton++;
+
+            if (counterClickSeeTestButton >= 5) {
+                btnJugarTest.IsEnabled = true;
+                btnJugarTest.Visibility = Visibility.Visible;
+            }
+        }
+
         /**
          * Boton para ir a la web
          */
@@ -325,10 +340,8 @@ namespace Launcher
         private void btnJugarTest_Click(object sender, RoutedEventArgs e)
         {
             BuscarActualizaciones(true);
-            System.Threading.Thread.Sleep(4000);
             startUpdate(true);
         }
-
 
         /**
          * Boton de minimizar
