@@ -241,6 +241,51 @@
                 </Button.Template>
             </Button>
             <ProgressBar x:Name="loadingBar" IsIndeterminate="True" Margin="167,348,167,127" Background="#00FF0707" BorderBrush="#00BCBCBC" Foreground="#FF410F0F" LargeChange="20" Orientation="Horizontal" SmallChange="1" Visibility="Hidden" />
+            <Button Click="btnJugarTest_Click" 
+                x:Name="btnJugarTest"
+                Margin="181,119,165,331" 
+                IsEnabled="True">
+
+                <Button.Background>
+                    <ImageBrush Stretch="Uniform" ImageSource="/assets/img/boton-comenzar-es-default-test.png"/>
+                </Button.Background>
+
+                <Button.Template>
+
+                    <ControlTemplate TargetType="{x:Type Button}">
+
+                        <Grid Background="{TemplateBinding Background}">
+
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="MouseOver"/>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
+                            <StackPanel>
+                                <Image x:Name="jugar" Source="/assets/img/boton-comenzar-es-over-test.png"  Stretch="Uniform" Visibility="Collapsed" Height="39"/>
+                                <Image x:Name="jugar2" Source="/assets/img/boton-comenzar-es-off-test.png"  Stretch="Uniform" Visibility="Collapsed" Height="39"/>
+                            </StackPanel>
+
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="jugar" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="jugar2" Property="Visibility" Value="Collapsed"/>
+                            </Trigger>
+
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter TargetName="jugar" Property="Visibility" Value="Collapsed"/>
+                                <Setter TargetName="jugar2" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+
+            </Button>
 
         </Grid>
 

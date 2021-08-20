@@ -11,7 +11,9 @@ namespace Launcher.src
     class Networking
     {
         public static string ROOT_HOST_PATH = "https://parches.ao20.com.ar/files/";
+        public static string ROOT_HOST_PATH_TEST = "https://parches.ao20.com.ar/files-test/";
         private readonly string VERSION_JSON_PATH = ROOT_HOST_PATH + "Version.json";
+        private readonly string VERSION_JSON_PATH_TEST = ROOT_HOST_PATH_TEST + "Version.json";
 
 
         public static string API_PATH = "https://api.ao20.com.ar/";
@@ -30,14 +32,14 @@ namespace Launcher.src
         /**
          * Comprueba la ultima version disponible
          */
-        public async Task<List<string>> CheckOutdatedFiles()
+        public async Task<List<string>> CheckOutdatedFiles(bool isTestDownload)
         {
             try
             {
                 fileQueue.Clear();
 
                 // Obtenemos los datos necesarios del servidor.
-                VersionInformation versionRemota = await Get_RemoteVersion();
+                VersionInformation versionRemota = await Get_RemoteVersion(isTestDownload);
 
                 if (versionRemota == null) versionRemota = new VersionInformation();
                 // Itero la lista de archivos del servidor y lo comparo con lo que tengo en local.
@@ -94,17 +96,21 @@ namespace Launcher.src
            
         }
 
-        public async Task<VersionInformation> Get_RemoteVersion()
+        public async Task<VersionInformation> Get_RemoteVersion(bool isTestDownload)
         {
             WebClient webClient = new WebClient();
 
             try
             {
                 // Envio un GET al servidor con el JSON de el archivo de versionado.
-                versionRemotaString = await webClient.DownloadStringTaskAsync(VERSION_JSON_PATH);
+                if (isTestDownload) {
+                    versionRemotaString = await webClient.DownloadStringTaskAsync(VERSION_JSON_PATH_TEST);
+                } else {
+                    versionRemotaString = await webClient.DownloadStringTaskAsync(VERSION_JSON_PATH);
+                }
 
-                // Me fijo que la response NO ESTÉ vacía.
-                if (versionRemotaString == null)
+            // Me fijo que la response NO ESTÉ vacía.
+            if (versionRemotaString == null)
                 {
                     MessageBox.Show("Hemos recibido una respuesta vacía del servidor. Contacta con un administrador :'(");
                     Environment.Exit(0);

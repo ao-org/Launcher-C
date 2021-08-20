@@ -39,7 +39,7 @@ namespace Launcher
             getServerStatus();
             getChangelog();
             checkConfiguracion();
-            BuscarActualizaciones();
+            BuscarActualizaciones(false);
         }
 
         private void checkConfiguracion()
@@ -59,11 +59,11 @@ namespace Launcher
             }
         }
 
-        private async void BuscarActualizaciones()
+        private async void BuscarActualizaciones(bool isTestDownload)
         {
             loadingBar.Visibility = Visibility.Visible;
 
-            local.ArchivosDesactualizados = (await networking.CheckOutdatedFiles()).Count;
+            local.ArchivosDesactualizados = (await networking.CheckOutdatedFiles(isTestDownload)).Count;
 
             btnJugar.IsEnabled = true;
             
@@ -87,7 +87,7 @@ namespace Launcher
         /**
          * Inicia el proceso de actualizacion del cliente
          */
-        private void Actualizar()
+        private void Actualizar(bool isTestDownload)
         {
             // ¿Hay archivos desactualizados?
             if (local.ArchivosDesactualizados > 0)
@@ -101,14 +101,14 @@ namespace Launcher
                 lblDow.Foreground = new SolidColorBrush(Colors.White);
 
                 // Comenzamos la descarga
-                DescargarActualizaciones();
+                DescargarActualizaciones(isTestDownload);
             }
         }
 
         /**
          * Comienza a descargar los archivos desactualizados.
          */
-        private async void DescargarActualizaciones()
+        private async void DescargarActualizaciones(bool isTestDownload)
         {
             networking.CrearCarpetasRequeridas();
             
@@ -277,7 +277,7 @@ namespace Launcher
             Environment.Exit(0);
         }
 
-        private void startUpdate()
+        private void startUpdate(bool isTestDownload)
         {
             // Si estamos actualizando el cliente no lo dejo clickear este boton.
             if (local.Actualizando == true) return;
@@ -296,7 +296,7 @@ namespace Launcher
 
                 }
 
-                Actualizar();
+                Actualizar(isTestDownload);
                 return;
             }
 
@@ -312,8 +312,23 @@ namespace Launcher
          */
         private void btnJugar_Click(object sender, RoutedEventArgs e)
         {
-            startUpdate();
+            startUpdate(false);
         }
+
+        /**
+         * Boton 'Jugar'
+         * 
+         * Si el cliente esta ACTUALIZADO y existe el ejecutable del cliente, lo abrimos.
+         * Si el cliente NO esta ACTUALIZADO, descargamos e instalamos las actualizaciones.
+         * TODO ESTO ES PARA EL SERVIDOR DE TEST
+         */
+        private void btnJugarTest_Click(object sender, RoutedEventArgs e)
+        {
+            BuscarActualizaciones(true);
+            System.Threading.Thread.Sleep(4000);
+            startUpdate(true);
+        }
+
 
         /**
          * Boton de minimizar
