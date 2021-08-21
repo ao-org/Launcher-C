@@ -339,6 +339,9 @@ namespace Launcher
          */
         private void btnJugarTest_Click(object sender, RoutedEventArgs e)
         {
+            MessageBox.Show("Este servidor es puramente de TEST. El mismo podria no ser estable, podria reiniciarse seguido debido a que se actualiza automaticamente por cada cambio que hacemos");
+            MessageBox.Show("Cuentas y Personajes podrian ser borrados sin previo aviso. Recomendacion de utilizar un email y password diferente al que utilizan en el servidor REAL");
+
             BuscarActualizaciones(true);
             startUpdate(true);
         }
