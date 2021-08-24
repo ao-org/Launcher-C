@@ -105,6 +105,7 @@ namespace Launcher.src
                 // Envio un GET al servidor con el JSON de el archivo de versionado.
                 if (isTestDownload) {
                     versionRemotaString = await webClient.DownloadStringTaskAsync(VERSION_JSON_PATH_TEST);
+                    versionRemotaString = versionRemotaString.Replace("Argentum20", "Argentum20-test");
                 } else {
                     versionRemotaString = await webClient.DownloadStringTaskAsync(VERSION_JSON_PATH);
                 }

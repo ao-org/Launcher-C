@@ -290,6 +290,10 @@
             </Button>
 
             <Label MouseDoubleClick="txtTestClickerButton_Click" x:Name="txtTestClickerButton" Content="." Style="{StaticResource Cardo}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="21,19,0,0" Width="21" Foreground="Orange" FontSize="14" FontWeight="ExtraBlack" HorizontalContentAlignment="Center" Height="24" />
+            <StackPanel x:Name="sp_test_descarga" Visibility="Hidden">
+                <Label Content="Ingrese password" Foreground="White" HorizontalAlignment="Center"/>
+                <TextBox x:Name="txt_password_test" TextWrapping="Wrap" Width="234" HorizontalAlignment="Center" KeyUp="txt_password_test_KeyUp" />
+            </StackPanel>
 
         </Grid>
 

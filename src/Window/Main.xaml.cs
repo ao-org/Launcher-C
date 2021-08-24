@@ -9,6 +9,7 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Windows;
+using System.Windows ;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
@@ -265,8 +266,8 @@ namespace Launcher
             counterClickSeeTestButton++;
 
             if (counterClickSeeTestButton >= 5) {
-                btnJugarTest.IsEnabled = true;
-                btnJugarTest.Visibility = Visibility.Visible;
+                sp_test_descarga.Visibility = Visibility.Visible;
+               
             }
         }
 
@@ -295,7 +296,7 @@ namespace Launcher
         private void startUpdate(bool isTestDownload)
         {
             // Si estamos actualizando el cliente no lo dejo clickear este boton.
-            if (local.Actualizando == true) return;
+            //if (local.Actualizando == true) return;
 
             // Si hay archivos desactualizados, primero los actualizamos.
             if (local.ArchivosDesactualizados > 0)
@@ -327,7 +328,7 @@ namespace Launcher
          */
         private void btnJugar_Click(object sender, RoutedEventArgs e)
         {
-            startUpdate(false);
+            startUpdate(true);
         }
 
         /**
@@ -423,6 +424,20 @@ namespace Launcher
         private void Window_ContentRendered(object sender, EventArgs e)
         {
 
+        }
+
+        private void txt_password_test_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (txt_password_test.Text == "zPG2Cqhvr4JXUrx7")
+            {
+                btnJugarTest.IsEnabled = true;
+                btnJugarTest.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                btnJugarTest.IsEnabled = false;
+                btnJugarTest.Visibility = Visibility.Hidden;
+            }
         }
     }
     public class ServerStatus
