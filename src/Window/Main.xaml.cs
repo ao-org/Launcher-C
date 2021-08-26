@@ -9,6 +9,7 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Windows;
+using System.Windows ;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
@@ -16,13 +17,16 @@ using System.Text.Json;
 using System.Runtime.InteropServices;
 using IniParser.Model;
 using IniParser;
+using System.Threading.Tasks;
 
 namespace Launcher
 {
     public partial class Main : Window, IComponentConnector
     {
+        private int counterClickSeeTestButton = 0;
         private readonly IO local = new IO();
         private readonly Networking networking = new Networking();
+        private bool descargaCompleta = false;
         [DllImport("kernel32")]
         static extern long WritePrivateProfileString(string Section, string Key, string Value, string FilePath);
         
@@ -39,7 +43,7 @@ namespace Launcher
             getServerStatus();
             getChangelog();
             checkConfiguracion();
-            BuscarActualizaciones();
+            BuscarActualizaciones(false);
         }
 
         private void checkConfiguracion()
@@ -59,11 +63,11 @@ namespace Launcher
             }
         }
 
-        private async void BuscarActualizaciones()
+        private async Task BuscarActualizaciones(bool isTestDownload)
         {
             loadingBar.Visibility = Visibility.Visible;
 
-            local.ArchivosDesactualizados = (await networking.CheckOutdatedFiles()).Count;
+            local.ArchivosDesactualizados = (await networking.CheckOutdatedFiles(isTestDownload)).Count;
 
             btnJugar.IsEnabled = true;
             
@@ -87,7 +91,7 @@ namespace Launcher
         /**
          * Inicia el proceso de actualizacion del cliente
          */
-        private void Actualizar()
+        private void Actualizar(bool isTestDownload)
         {
             // ¿Hay archivos desactualizados?
             if (local.ArchivosDesactualizados > 0)
@@ -101,21 +105,22 @@ namespace Launcher
                 lblDow.Foreground = new SolidColorBrush(Colors.White);
 
                 // Comenzamos la descarga
-                DescargarActualizaciones();
+                DescargarActualizaciones(isTestDownload);
+                descargaCompleta = true;
             }
         }
 
         /**
          * Comienza a descargar los archivos desactualizados.
          */
-        private async void DescargarActualizaciones()
+        private async void DescargarActualizaciones(bool isTestDownload)
         {
             networking.CrearCarpetasRequeridas();
             
             WebClient client = new WebClient();
             client.DownloadFileCompleted += new AsyncCompletedEventHandler(UpdateDone);
             client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(UpdateProgress);
-            await networking.IniciarDescarga(client);
+            await networking.IniciarDescarga(client, isTestDownload);
         }
 
         private async void getServerStatus()
@@ -228,9 +233,15 @@ namespace Launcher
             grdPbarLlena.Width = (local.ArchivoActual + e.ProgressPercentage / 100.0) * 416.0 / networking.fileQueue.Count;
         }
 
-        private static void AbrirJuego()
+        private static void AbrirJuego(bool isTest = false)
         {
+            
             string gameExecutable = App.ARGENTUM_PATH + "Argentum20\\Cliente\\Argentum.exe";
+            
+            if (isTest)
+            {
+                gameExecutable = App.ARGENTUM_PATH + "Argentum20-test\\Cliente\\Argentum.exe";
+            }
             if (File.Exists(gameExecutable))
             {
                 ProcessStartInfo startInfo = new ProcessStartInfo();
@@ -252,6 +263,20 @@ namespace Launcher
             else
             {
                 MessageBox.Show("No se pudo abrir el ejecutable del juego, al parecer no existe!");
+            }
+        }
+
+
+        /**
+        * Boton para ver el boton de descarga del boton de test
+        */
+        private void txtTestClickerButton_Click(object sender, RoutedEventArgs e)
+        {
+            counterClickSeeTestButton++;
+
+            if (counterClickSeeTestButton >= 1) {
+                sp_test_descarga.Visibility = Visibility.Visible;
+               
             }
         }
 
@@ -277,7 +302,7 @@ namespace Launcher
             Environment.Exit(0);
         }
 
-        private void startUpdate()
+        private void startUpdate(bool isTestDownload)
         {
             // Si estamos actualizando el cliente no lo dejo clickear este boton.
             if (local.Actualizando == true) return;
@@ -295,13 +320,12 @@ namespace Launcher
                     }
 
                 }
-
-                Actualizar();
+                Actualizar(isTestDownload);
                 return;
             }
 
             // Abrimos el cliente.
-            AbrirJuego();
+            AbrirJuego(isTestDownload);
         }
 
         /**
@@ -312,7 +336,33 @@ namespace Launcher
          */
         private void btnJugar_Click(object sender, RoutedEventArgs e)
         {
-            startUpdate();
+            startUpdate(true);
+        }
+
+        /**
+         * Boton 'Jugar'
+         * 
+         * Si el cliente esta ACTUALIZADO y existe el ejecutable del cliente, lo abrimos.
+         * Si el cliente NO esta ACTUALIZADO, descargamos e instalamos las actualizaciones.
+         * TODO ESTO ES PARA EL SERVIDOR DE TEST
+         */
+        private async void btnJugarTest_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Este servidor es puramente de TEST. El mismo podria no ser estable, podria reiniciarse seguido debido a que se actualiza automaticamente por cada cambio que hacemos");
+            MessageBox.Show("Cuentas y Personajes podrian ser borrados sin previo aviso. Recomendacion de utilizar un email y password diferente al que utilizan en el servidor REAL");
+
+
+            
+
+            if (!descargaCompleta) {
+                //obtengo cantidad de actualizaciones y el manifest
+                await BuscarActualizaciones(true);
+
+                //Comienzo la descarga.
+                startUpdate(true);
+            } else {
+                AbrirJuego(true);
+            } 
         }
 
         /**
@@ -389,9 +439,18 @@ namespace Launcher
             WritePrivateProfileString("OPCIONES", "LanzarAutomatico", Convert.ToInt32(chkLanzarAutomatico.IsChecked).ToString(), Configuracion.CONFIG_FILE);
         }
 
-        private void Window_ContentRendered(object sender, EventArgs e)
+        private void txt_password_test_KeyUp(object sender, KeyEventArgs e)
         {
-
+            if (txt_password_test.Text == "zPG2Cqhvr4JXUrx7")
+            {
+                btnJugarTest.IsEnabled = true;
+                btnJugarTest.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                btnJugarTest.IsEnabled = false;
+                btnJugarTest.Visibility = Visibility.Hidden;
+            }
         }
     }
     public class ServerStatus
