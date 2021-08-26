@@ -17,6 +17,7 @@ using System.Text.Json;
 using System.Runtime.InteropServices;
 using IniParser.Model;
 using IniParser;
+using System.Threading.Tasks;
 
 namespace Launcher
 {
@@ -25,6 +26,7 @@ namespace Launcher
         private int counterClickSeeTestButton = 0;
         private readonly IO local = new IO();
         private readonly Networking networking = new Networking();
+        private bool descargaCompleta = false;
         [DllImport("kernel32")]
         static extern long WritePrivateProfileString(string Section, string Key, string Value, string FilePath);
         
@@ -61,7 +63,7 @@ namespace Launcher
             }
         }
 
-        private async void BuscarActualizaciones(bool isTestDownload)
+        private async Task BuscarActualizaciones(bool isTestDownload)
         {
             loadingBar.Visibility = Visibility.Visible;
 
@@ -104,6 +106,7 @@ namespace Launcher
 
                 // Comenzamos la descarga
                 DescargarActualizaciones(isTestDownload);
+                descargaCompleta = true;
             }
         }
 
@@ -117,7 +120,7 @@ namespace Launcher
             WebClient client = new WebClient();
             client.DownloadFileCompleted += new AsyncCompletedEventHandler(UpdateDone);
             client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(UpdateProgress);
-            await networking.IniciarDescarga(client);
+            await networking.IniciarDescarga(client, isTestDownload);
         }
 
         private async void getServerStatus()
@@ -230,9 +233,15 @@ namespace Launcher
             grdPbarLlena.Width = (local.ArchivoActual + e.ProgressPercentage / 100.0) * 416.0 / networking.fileQueue.Count;
         }
 
-        private static void AbrirJuego()
+        private static void AbrirJuego(bool isTest = false)
         {
+            
             string gameExecutable = App.ARGENTUM_PATH + "Argentum20\\Cliente\\Argentum.exe";
+            
+            if (isTest)
+            {
+                gameExecutable = App.ARGENTUM_PATH + "Argentum20-test\\Cliente\\Argentum.exe";
+            }
             if (File.Exists(gameExecutable))
             {
                 ProcessStartInfo startInfo = new ProcessStartInfo();
@@ -265,7 +274,7 @@ namespace Launcher
         {
             counterClickSeeTestButton++;
 
-            if (counterClickSeeTestButton >= 5) {
+            if (counterClickSeeTestButton >= 1) {
                 sp_test_descarga.Visibility = Visibility.Visible;
                
             }
@@ -296,7 +305,7 @@ namespace Launcher
         private void startUpdate(bool isTestDownload)
         {
             // Si estamos actualizando el cliente no lo dejo clickear este boton.
-            //if (local.Actualizando == true) return;
+            if (local.Actualizando == true) return;
 
             // Si hay archivos desactualizados, primero los actualizamos.
             if (local.ArchivosDesactualizados > 0)
@@ -311,13 +320,12 @@ namespace Launcher
                     }
 
                 }
-
                 Actualizar(isTestDownload);
                 return;
             }
 
             // Abrimos el cliente.
-            AbrirJuego();
+            AbrirJuego(isTestDownload);
         }
 
         /**
@@ -338,13 +346,23 @@ namespace Launcher
          * Si el cliente NO esta ACTUALIZADO, descargamos e instalamos las actualizaciones.
          * TODO ESTO ES PARA EL SERVIDOR DE TEST
          */
-        private void btnJugarTest_Click(object sender, RoutedEventArgs e)
+        private async void btnJugarTest_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Este servidor es puramente de TEST. El mismo podria no ser estable, podria reiniciarse seguido debido a que se actualiza automaticamente por cada cambio que hacemos");
             MessageBox.Show("Cuentas y Personajes podrian ser borrados sin previo aviso. Recomendacion de utilizar un email y password diferente al que utilizan en el servidor REAL");
 
-            BuscarActualizaciones(true);
-            startUpdate(true);
+
+            
+
+            if (!descargaCompleta) {
+                //obtengo cantidad de actualizaciones y el manifest
+                await BuscarActualizaciones(true);
+
+                //Comienzo la descarga.
+                startUpdate(true);
+            } else {
+                AbrirJuego(true);
+            } 
         }
 
         /**
@@ -419,11 +437,6 @@ namespace Launcher
         private void chkLanzarAutomatico_Click(object sender, RoutedEventArgs e)
         {
             WritePrivateProfileString("OPCIONES", "LanzarAutomatico", Convert.ToInt32(chkLanzarAutomatico.IsChecked).ToString(), Configuracion.CONFIG_FILE);
-        }
-
-        private void Window_ContentRendered(object sender, EventArgs e)
-        {
-
         }
 
         private void txt_password_test_KeyUp(object sender, KeyEventArgs e)

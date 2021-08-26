@@ -242,14 +242,21 @@
                 </Button.Template>
             </Button>
             <ProgressBar x:Name="loadingBar" IsIndeterminate="True" Margin="167,348,167,127" Background="#00FF0707" BorderBrush="#00BCBCBC" Foreground="#FF410F0F" LargeChange="20" Orientation="Horizontal" SmallChange="1" Visibility="Hidden" />
+           
+            <Label MouseDoubleClick="txtTestClickerButton_Click" x:Name="txtTestClickerButton" Content="." Style="{StaticResource Cardo}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="21,19,0,0" Width="21" Foreground="Orange" FontSize="14" FontWeight="ExtraBlack" HorizontalContentAlignment="Center" Height="24" />
+            <StackPanel x:Name="sp_test_descarga" Visibility="Hidden">
+                <Label Content="Ingrese password" Foreground="White" HorizontalAlignment="Center"/>
+                <TextBox x:Name="txt_password_test" TextWrapping="Wrap" Width="234" HorizontalAlignment="Center" KeyUp="txt_password_test_KeyUp" />
+            </StackPanel>
             <Button Click="btnJugarTest_Click" 
-                x:Name="btnJugarTest"
-                Margin="181,119,165,331" 
-                IsEnabled="False" 
-                Visibility="Hidden">
+                x:Name="btnJugarTest" 
+                Height="39"    
+                Width="161"
+                Visibility="Hidden"
+                Margin="170,110,162,330" IsEnabled="False">
 
                 <Button.Background>
-                    <ImageBrush Stretch="Uniform" ImageSource="/assets/img/boton-comenzar-es-default-test.png"/>
+                    <ImageBrush Stretch="Uniform" ImageSource="/assets/img/boton-descarga-test-default.png"/>
                 </Button.Background>
 
                 <Button.Template>
@@ -266,8 +273,8 @@
                             </VisualStateManager.VisualStateGroups>
 
                             <StackPanel>
-                                <Image x:Name="jugar" Source="/assets/img/boton-comenzar-es-over-test.png"  Stretch="Uniform" Visibility="Collapsed" Height="39"/>
-                                <Image x:Name="jugar2" Source="/assets/img/boton-comenzar-es-off-test.png"  Stretch="Uniform" Visibility="Collapsed" Height="39"/>
+                                <Image x:Name="jugar" Source="/assets/img/boton-descarga-test-over.png"  Stretch="Uniform" Visibility="Collapsed" Height="39"/>
+                                <Image x:Name="jugar2" Source="/assets/img/boton-descarga-test-off.png"  Stretch="Uniform" Visibility="Collapsed" Height="39"/>
                             </StackPanel>
 
                         </Grid>
@@ -288,12 +295,6 @@
                 </Button.Template>
 
             </Button>
-
-            <Label MouseDoubleClick="txtTestClickerButton_Click" x:Name="txtTestClickerButton" Content="." Style="{StaticResource Cardo}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="21,19,0,0" Width="21" Foreground="Orange" FontSize="14" FontWeight="ExtraBlack" HorizontalContentAlignment="Center" Height="24" />
-            <StackPanel x:Name="sp_test_descarga" Visibility="Hidden">
-                <Label Content="Ingrese password" Foreground="White" HorizontalAlignment="Center"/>
-                <TextBox x:Name="txt_password_test" TextWrapping="Wrap" Width="234" HorizontalAlignment="Center" KeyUp="txt_password_test_KeyUp" />
-            </StackPanel>
 
         </Grid>
 
