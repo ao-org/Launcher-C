@@ -34,7 +34,7 @@ namespace Launcher.src
         /**
          * Comprueba la ultima version disponible
          */
-        public async Task<List<string>> CheckOutdatedFiles(bool isTestDownload)
+        public async Task<List<string>> CheckOutdatedFiles(bool isTestDownload = false)
         {
             try
             {
@@ -101,7 +101,7 @@ namespace Launcher.src
 
         }
 
-        public async Task<VersionInformation> Get_RemoteVersion(bool isTestDownload)
+        public async Task<VersionInformation> Get_RemoteVersion(bool isTestDownload = false)
         {
             WebClient webClient = new WebClient();
 

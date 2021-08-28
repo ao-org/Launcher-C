@@ -43,7 +43,7 @@ namespace Launcher
             getServerStatus();
             getChangelog();
             checkConfiguracion();
-            BuscarActualizaciones(false);
+            BuscarActualizaciones();
         }
 
         private void checkConfiguracion()
@@ -63,7 +63,7 @@ namespace Launcher
             }
         }
 
-        private async Task BuscarActualizaciones(bool isTestDownload)
+        private async Task BuscarActualizaciones(bool isTestDownload = false)
         {
             loadingBar.Visibility = Visibility.Visible;
 
@@ -302,7 +302,7 @@ namespace Launcher
             Environment.Exit(0);
         }
 
-        private void startUpdate(bool isTestDownload)
+        private void startUpdate(bool isTestDownload = false)
         {
             // Si estamos actualizando el cliente no lo dejo clickear este boton.
             if (local.Actualizando == true) return;
@@ -336,7 +336,7 @@ namespace Launcher
          */
         private void btnJugar_Click(object sender, RoutedEventArgs e)
         {
-            startUpdate(true);
+            startUpdate(false);
         }
 
         /**
@@ -357,7 +357,6 @@ namespace Launcher
             if (!descargaCompleta) {
                 //obtengo cantidad de actualizaciones y el manifest
                 await BuscarActualizaciones(true);
-
                 //Comienzo la descarga.
                 startUpdate(true);
             } else {
