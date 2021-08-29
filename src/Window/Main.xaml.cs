@@ -440,7 +440,7 @@ namespace Launcher
 
         private void txt_password_test_KeyUp(object sender, KeyEventArgs e)
         {
-            if (txt_password_test.Text == "zPG2Cqhvr4JXUrx7")
+            if (txt_password_test.Text == "4zfVB2Zxf7VAzn6RjYkVbpB9dJBP")
             {
                 btnJugarTest.IsEnabled = true;
                 btnJugarTest.Visibility = Visibility.Visible;
