@@ -12,6 +12,7 @@
         ContentRendered="Window_ContentRendered_1"
         Width="493">
 
+
     <Window.Resources>
         <Style x:Key="Cardo">
             <Setter Property="TextElement.FontFamily" Value="../../assets/fonts/#Cardo"/>
@@ -242,8 +243,8 @@
                 </Button.Template>
             </Button>
             <ProgressBar x:Name="loadingBar" IsIndeterminate="True" Margin="167,348,167,127" Background="#00FF0707" BorderBrush="#00BCBCBC" Foreground="#FF410F0F" LargeChange="20" Orientation="Horizontal" SmallChange="1" Visibility="Hidden" />
-           
-            <Label MouseDoubleClick="txtTestClickerButton_Click" x:Name="txtTestClickerButton" Content="." Style="{StaticResource Cardo}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="21,19,0,0" Width="21" Foreground="Orange" FontSize="14" FontWeight="ExtraBlack" HorizontalContentAlignment="Center" Height="24" />
+
+            <Label MouseDoubleClick="txtTestClickerButton_Click" x:Name="txtTestClickerButton" Content="." Style="{StaticResource Cardo}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="132,80,0,0" Width="14" Foreground="Orange" FontWeight="ExtraBlack" HorizontalContentAlignment="Center" Height="17" FontSize="6" />
             <StackPanel x:Name="sp_test_descarga" Visibility="Hidden">
                 <Label Content="Ingrese password" Foreground="White" HorizontalAlignment="Center"/>
                 <TextBox x:Name="txt_password_test" TextWrapping="Wrap" Width="234" HorizontalAlignment="Center" KeyUp="txt_password_test_KeyUp" />
@@ -295,12 +296,6 @@
                 </Button.Template>
 
             </Button>
-
-            <Label MouseDoubleClick="txtTestClickerButton_Click" x:Name="txtTestClickerButton" Content="." Style="{StaticResource Cardo}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="132,74,0,0" Width="16" Foreground="Orange" FontSize="14" FontWeight="ExtraBlack" HorizontalContentAlignment="Center" Height="24" RenderTransformOrigin="0.926,0.489" />
-            <StackPanel x:Name="sp_test_descarga" Visibility="Hidden">
-                <Label Content="Ingrese password" Foreground="White" HorizontalAlignment="Center"/>
-                <TextBox x:Name="txt_password_test" TextWrapping="Wrap" Width="234" HorizontalAlignment="Center" KeyUp="txt_password_test_KeyUp" />
-            </StackPanel>
 
         </Grid>
 

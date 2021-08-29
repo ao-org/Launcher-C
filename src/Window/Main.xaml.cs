@@ -274,7 +274,7 @@ namespace Launcher
         {
             counterClickSeeTestButton++;
 
-            if (counterClickSeeTestButton >= 1) {
+            if (counterClickSeeTestButton >= 7) {
                 sp_test_descarga.Visibility = Visibility.Visible;
                
             }
