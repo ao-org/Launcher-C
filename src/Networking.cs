@@ -16,7 +16,7 @@ namespace Launcher.src
         private readonly string VERSION_JSON_PATH_TEST = ROOT_HOST_PATH_TEST + "Version.json";
 
 
-        public static string API_PATH = "https://api.ao20.com.ar/";
+        public static string API_PATH = "http://api.ao20.com.ar/";
         private readonly List<string> EXCEPCIONES = new List<string>() {
             "Argentum20\\Recursos\\OUTPUT\\Configuracion.ini",
             "Argentum20\\Recursos\\OUTPUT\\Teclas.ini",
