@@ -170,12 +170,20 @@ namespace Launcher.src
         public async Task IniciarDescarga(WebClient webClient, bool isTestDownload = false)
         {
             Uri uriDescarga;
+
+            //Obtenemos uno de los 3 servidores de parches de forma "random"
+            var serverParchesMirrors = new[] { "", "1", "2"};
+            Random random = new Random();
+            int mirrorServer = random.Next(0, serverParchesMirrors.Length);
+
+            string host = ROOT_HOST_PATH + serverParchesMirrors[mirrorServer];
+               
+
             //files contains all URL links
             foreach (string file in fileQueue)
             {
                 downloadQueue = new TaskCompletionSource<bool>();
 
-                string host = ROOT_HOST_PATH;
                 string fileOk = file;
                 if (isTestDownload)
                 {
