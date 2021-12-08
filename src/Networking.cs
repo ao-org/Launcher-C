@@ -176,7 +176,7 @@ namespace Launcher.src
             Random random = new Random();
             int mirrorServer = random.Next(0, serverParchesMirrors.Length);
 
-            string host = ROOT_HOST_PATH + serverParchesMirrors[mirrorServer];
+            string host = ROOT_HOST_PATH.Replace("parches", "parches" + serverParchesMirrors[mirrorServer]);
                
 
             //files contains all URL links
