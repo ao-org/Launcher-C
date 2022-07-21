@@ -1,4 +1,3 @@
 # re20-lanzador
-Launcher actual del juego. Hecho en c#
-
+Ex Launcher del juego.
 EX Launcher-C
